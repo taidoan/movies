@@ -6,6 +6,7 @@ function App() {
   const [list, setList] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState("");
+  const [selectedGenre, setSelectedGenre] = useState("");
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -13,6 +14,10 @@ function App() {
         "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiOWQxYjY1MTk3MDJhMGM4YWEyMDljMDgyMGZkNzYwZCIsInN1YiI6IjY1MmZiNTQ2YTgwMjM2MDBmZDJkOWI0NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.T4_lz5dW_04-vBkYjVXrA8w25MKLsPYqqiBj0t5CpLM";
       const randomPage = Math.floor(Math.random() * 500);
       let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${randomPage}&primary_release_date.gte=1990`;
+
+      if (selectedGenre) {
+        url += `&with_genres=${selectedGenre}`;
+      }
 
       const options = {
         method: "GET",
@@ -35,7 +40,11 @@ function App() {
       fetchMovies();
       setIsSubmitted(false);
     }
-  }, [isSubmitted]);
+  }, [isSubmitted, selectedGenre]);
+
+  const handleGenreChange = (event) => {
+    setSelectedGenre(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -55,7 +64,7 @@ function App() {
       formOptions.style.display === "none" ||
       formOptions.style.display === ""
     ) {
-      formOptions.style.display = "block";
+      formOptions.style.display = "grid";
     } else {
       formOptions.style.display = "none";
     }
@@ -73,7 +82,10 @@ function App() {
         Options
       </button>
       <form onSubmit={handleSubmit}>
-        <FormOptions />
+        <FormOptions
+          selectedGenre={selectedGenre}
+          handleGenreChange={handleGenreChange}
+        />
         <button className="btn" type="submit">
           Click Me
         </button>
