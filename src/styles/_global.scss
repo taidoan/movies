@@ -1,0 +1,19 @@
+// Colours
+
+$verdigris: hsla(173, 50%, 54%, 1);
+$ghost-white: hsla(240, 100%, 98%, 1);
+$black: hsla(233, 40%, 4%, 1);
+$savoy-blue: hsla(235, 60%, 59%, 1);
+$emerald: hsla(164, 95%, 43%, 1);
+
+$primary-clr: $savoy-blue;
+$secondary-clr: $emerald;
+$accent-clr: $verdigris;
+$white: $ghost-white;
+$primary-text-clr: $black;
+
+// Typography
+
+$body-ff: "Inter", Helvetica, Arial, sans-serif;
+$heading-ff: "Gabarito", Helvetica, Arial, sans-serif;
+$body-font-size: 16;

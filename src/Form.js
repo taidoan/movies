@@ -79,7 +79,6 @@ const MovieSearch = () => {
             style={style}
             alt="test"
           />
-          {/* Add other relevant data to display */}
         </div>
       ))}
     </div>
