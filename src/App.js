@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchMovies } from "./utils/fetchMovies";
+import { fetchActorID } from "./utils/fetchActorID";
 import MovieResult from "./Result";
 import FormOptions from "./FormOptions";
 
@@ -28,12 +29,53 @@ function App() {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  // useEffect(() => {
+  //   if (movieDetails.selectedActor) {
+  //     fetchActorID(movieDetails.selectedActor, options)
+  //       .then((actorID) => {
+  //         setMovieDetails((prevState) => ({
+  //           ...prevState,
+  //           selectedActorID: actorID,
+  //         }));
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching actor id:", error);
+  //       });
+  //   }
+  // }, [movieDetails.selectedActor, options]);
+
   useEffect(() => {
-    const fetchMoviesData = async () => {
-      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990&page=${randomPage}`;
+    const getActorID = async () => {
+      if (movieDetails.selectedActor) {
+        try {
+          const actorID = await fetchActorID(
+            movieDetails.selectedActor,
+            options
+          );
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            selectedActorID: actorID,
+          }));
+        } catch (error) {
+          console.error("Error fetching actor ID:", error);
+        }
+      }
+    };
+    getActorID();
+  }, [movieDetails.selectedActor, options]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990`;
 
       if (movieDetails.selectedGenre.length > 0) {
         url += `&with_genres=${movieDetails.selectedGenre}`;
+      }
+
+      if (movieDetails.selectedActorID) {
+        url += `&with_cast=${movieDetails.selectedActorID}`;
+      } else {
+        url += `&page=${randomPage}`;
       }
 
       const results = await fetchMovies(url, options);
@@ -56,13 +98,33 @@ function App() {
     };
 
     if (formSubmitted) {
-      fetchMoviesData();
+      fetchData();
       setFormSubmitted(false);
     }
-  }, [formSubmitted, movieDetails, randomPage, options]);
+  }, [
+    formSubmitted,
+    movieDetails.selectedActorID,
+    movieDetails.selectedGenre,
+    randomPage,
+    options,
+  ]);
 
   const handleGenreChange = (event) => {
     setMovieDetails({ ...movieDetails, selectedGenre: event.target.value });
+  };
+
+  const handleActor = (event) => {
+    const value = event.target.value;
+
+    if (value === "") {
+      setMovieDetails({
+        ...movieDetails,
+        selectedActor: "",
+        selectedActorID: "",
+      });
+    } else {
+      setMovieDetails({ ...movieDetails, selectedActor: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -97,8 +159,8 @@ function App() {
         <FormOptions
           selectedGenre={movieDetails.selectedGenre}
           handleGenreChange={handleGenreChange}
-          // SelectedActorName={movieDetails(selectedActor)}
-          // handleActor={handleActor}
+          selectedActorName={movieDetails.selectedActor}
+          handleActor={handleActor}
         />
         <button type="submit">Click me</button>
       </form>
