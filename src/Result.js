@@ -28,15 +28,15 @@ const MovieResult = ({ movie }) => {
   return (
     <div key={movie.id} className={results.card}>
       <img
-        src={"https://image.tmdb.org/t/p/original/" + movie.poster_path}
+        src={"https://image.tmdb.org/t/p/original/" + movie.moviePosterPath}
         className={results.image}
-        alt={movie.title}
+        alt={movie.selectedMovie}
       />
-      <h1>{movie.title}</h1>
-      <p>Genre: {getGenreNames(movie.genre_ids)}</p>
-      <p>Release Date: {movie.release_date}</p>
-      <p>Overview: {movie.overview}</p>
-      <p>Rating: {movie.vote_average}/10</p>
+      <h1>{movie.selectedMovie}</h1>
+      <p>Genre: {getGenreNames(movie.movieGenres)}</p>
+      <p>Release Date: {movie.movieReleaseDate}</p>
+      <p>Overview: {movie.movieOverview}</p>
+      <p>Rating: {movie.movieRating}/10</p>
     </div>
   );
 };

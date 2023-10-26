@@ -25,8 +25,13 @@ const FormOptions = ({ selectedGenre, handleGenreChange }) => {
         <option value="10752">War</option>
         <option value="37">Western</option>
       </select>
-      <label htmlFor="actor">Actor</label>
-      <input type="text" id="actor"></input>
+      {/* <label htmlFor="actor">Actor</label>
+      <input
+        type="text"
+        id="actor"
+        value={SelectedActorID}
+        onChange={handleActor}
+      ></input> */}
       <label htmlFor="director">Director</label>
       <input type="text" id="director"></input>
     </div>

@@ -1,62 +1,74 @@
 import { useEffect, useState } from "react";
+import { fetchMovies } from "./utils/fetchMovies";
 import MovieResult from "./Result";
 import FormOptions from "./FormOptions";
 
 function App() {
-  const [list, setList] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const apiKey = process.env.REACT_APP_API_KEY;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+  };
+  const randomPage = Math.floor(Math.random() * 500);
+  const [movieDetails, setMovieDetails] = useState({
+    selectedMovie: "",
+    selectedGenre: "",
+    selectedActor: "",
+    selectedActorID: "",
+    selectedDirector: "",
+    selectedDirectorID: "",
+    movieOverview: "",
+    movieGenres: [],
+    movieRating: "",
+    moviePosterPath: "",
+    movieReleaseDate: "",
+  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const apiKey =
-        "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiOWQxYjY1MTk3MDJhMGM4YWEyMDljMDgyMGZkNzYwZCIsInN1YiI6IjY1MmZiNTQ2YTgwMjM2MDBmZDJkOWI0NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.T4_lz5dW_04-vBkYjVXrA8w25MKLsPYqqiBj0t5CpLM";
-      const randomPage = Math.floor(Math.random() * 500);
-      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&page=${randomPage}&primary_release_date.gte=1990`;
+    const fetchMoviesData = async () => {
+      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990&page=${randomPage}`;
 
-      if (selectedGenre) {
-        url += `&with_genres=${selectedGenre}`;
+      if (movieDetails.selectedGenre.length > 0) {
+        url += `&with_genres=${movieDetails.selectedGenre}`;
       }
 
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-      };
+      const results = await fetchMovies(url, options);
 
-      try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        const results = data.results;
-        setList(results);
-      } catch (error) {
-        console.log("Error:", error);
+      if (results.length > 0) {
+        const random = Math.floor(Math.random() * results.length);
+        const movie = results[random];
+        const updatedMovieDetails = {
+          ...movieDetails,
+          selectedMovie: movie.title,
+          movieGenres: movie.genre_ids,
+          movieRating: movie.vote_average,
+          moviePosterPath: movie.poster_path,
+          movieReleaseDate: movie.release_date,
+          movieOverview: movie.overview,
+        };
+        setMovieDetails(updatedMovieDetails);
+        console.log(updatedMovieDetails);
       }
     };
-    if (isSubmitted) {
-      fetchMovies();
-      setIsSubmitted(false);
+
+    if (formSubmitted) {
+      fetchMoviesData();
+      setFormSubmitted(false);
     }
-  }, [isSubmitted, selectedGenre]);
+  }, [formSubmitted, movieDetails, randomPage, options]);
 
   const handleGenreChange = (event) => {
-    setSelectedGenre(event.target.value);
+    setMovieDetails({ ...movieDetails, selectedGenre: event.target.value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsSubmitted(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
   };
-
-  useEffect(() => {
-    if (list.length > 0) {
-      const randomIndex = Math.floor(Math.random() * list.length);
-      setSelectedMovie(list[randomIndex]);
-    }
-  }, [list]);
 
   const toggleOptions = () => {
     const formOptions = document.getElementById("formOptions");
@@ -83,14 +95,14 @@ function App() {
       </button>
       <form onSubmit={handleSubmit}>
         <FormOptions
-          selectedGenre={selectedGenre}
+          selectedGenre={movieDetails.selectedGenre}
           handleGenreChange={handleGenreChange}
+          // SelectedActorName={movieDetails(selectedActor)}
+          // handleActor={handleActor}
         />
-        <button className="btn" type="submit">
-          Click Me
-        </button>
+        <button type="submit">Click me</button>
       </form>
-      {selectedMovie && <MovieResult movie={selectedMovie} />}
+      {movieDetails && <MovieResult movie={movieDetails} />}
     </div>
   );
 }
