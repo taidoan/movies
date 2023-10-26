@@ -29,21 +29,6 @@ function App() {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // useEffect(() => {
-  //   if (movieDetails.selectedActor) {
-  //     fetchActorID(movieDetails.selectedActor, options)
-  //       .then((actorID) => {
-  //         setMovieDetails((prevState) => ({
-  //           ...prevState,
-  //           selectedActorID: actorID,
-  //         }));
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching actor id:", error);
-  //       });
-  //   }
-  // }, [movieDetails.selectedActor, options]);
-
   useEffect(() => {
     const getActorID = async () => {
       if (movieDetails.selectedActor) {
@@ -79,9 +64,14 @@ function App() {
       }
 
       const results = await fetchMovies(url, options);
+      let lastIndex = -1;
 
       if (results.length > 0) {
-        const random = Math.floor(Math.random() * results.length);
+        let random = Math.floor(Math.random() * results.length);
+        while (random === lastIndex) {
+          random = Math.floor(Math.random() * results.length);
+        }
+
         const movie = results[random];
         const updatedMovieDetails = {
           ...movieDetails,
@@ -94,6 +84,7 @@ function App() {
         };
         setMovieDetails(updatedMovieDetails);
         console.log(updatedMovieDetails);
+        lastIndex = random;
       }
     };
 
@@ -103,6 +94,7 @@ function App() {
     }
   }, [
     formSubmitted,
+    movieDetails,
     movieDetails.selectedActorID,
     movieDetails.selectedGenre,
     randomPage,
