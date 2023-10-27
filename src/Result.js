@@ -32,8 +32,8 @@ const MovieResult = ({ movie }) => {
         className={results.image}
         alt={movie.selectedMovie}
       />
-      <h1>{movie.selectedMovie}</h1>
-      <p>Genre: {getGenreNames(movie.movieGenres)}</p>
+      <h1>{movie.movieName}</h1>
+      <p>Genre: {movie.movieGenres && getGenreNames(movie.movieGenres)}</p>
       <p>Release Date: {movie.movieReleaseDate}</p>
       <p>Overview: {movie.movieOverview}</p>
       <p>Rating: {movie.movieRating}/10</p>

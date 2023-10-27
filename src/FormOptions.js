@@ -3,8 +3,8 @@ import options from "./styles/components/options.module.scss";
 const FormOptions = ({
   selectedGenre,
   handleGenreChange,
-  selectedActorID,
-  handleActor,
+  actorRef,
+  directorRef,
 }) => {
   return (
     <div className={options.form} id="formOptions">
@@ -31,14 +31,14 @@ const FormOptions = ({
         <option value="37">Western</option>
       </select>
       <label htmlFor="actor">Actor</label>
+      <input type="text" id="actor" ref={actorRef}></input>
+      <label htmlFor="director">Director</label>
       <input
         type="text"
-        id="actor"
-        value={selectedActorID}
-        onChange={handleActor}
+        id="director"
+        name="director"
+        ref={directorRef}
       ></input>
-      <label htmlFor="director">Director</label>
-      <input type="text" id="director"></input>
     </div>
   );
 };

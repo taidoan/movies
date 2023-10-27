@@ -1,4 +1,4 @@
-export const fetchActorID = async (selectedActor, options) => {
+export const fetchActorData = async (selectedActor, options) => {
   if (selectedActor) {
     const url = `https://api.themoviedb.org/3/search/person?query=${selectedActor}&include_adult=false&language=en-US&page=1`;
 
@@ -7,17 +7,17 @@ export const fetchActorID = async (selectedActor, options) => {
       const data = await response.json();
       const results = data.results;
       let id = "";
+      let name = "";
 
       if (results.length > 0) {
         id = results[0].id;
-      } else {
-        id = "";
+        name = results[0].name;
       }
-      return id;
+      return { id, name };
     } catch (error) {
       console.log("Error:", error);
-      return "";
+      return { id: "", name: "" };
     }
   }
-  return "";
+  return { id: "", name: "" };
 };
