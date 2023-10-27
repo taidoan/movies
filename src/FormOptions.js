@@ -10,6 +10,7 @@ const FormOptions = ({
     <div className={options.form} id="formOptions">
       <label htmlFor="genres">Genre</label>
       <select id="genres" value={selectedGenre} onChange={handleGenreChange}>
+        <option value="any">Any</option>
         <option value="28">Action</option>
         <option value="12">Adventure</option>
         <option value="16">Animation</option>

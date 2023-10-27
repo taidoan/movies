@@ -47,7 +47,7 @@ export default function App() {
       let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990`;
 
       // HAS A GENERE BEEN PICKED?
-      if (pickedGenre && pickedGenre.length > 0) {
+      if (pickedGenre && pickedGenre !== "any") {
         url += `&with_genres=${pickedGenre}`;
       }
 
@@ -109,6 +109,7 @@ export default function App() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // IF AN ACTOR IS SUBMITTED, SET DETAILS
     if (actorRef.current.value.trim() === "") {
       setMovieDetails((prevState) => ({
         ...prevState,
@@ -129,6 +130,7 @@ export default function App() {
       }));
     }
 
+    // IF A DIRECTOR IS SUBMITTED, SET DETAILS
     if (directorRef.current.value.trim() === "") {
       setMovieDetails((prevState) => ({
         ...prevState,
@@ -172,8 +174,6 @@ export default function App() {
           handleGenreChange={handleGenreChange}
           actorRef={actorRef}
           directorRef={directorRef}
-          // selectedActorName={movieDetails.selectedActor}
-          // handleDirector={handleDirector}
         />
         <button type="submit">roll</button>
       </form>
