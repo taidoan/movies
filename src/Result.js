@@ -36,7 +36,7 @@ const MovieResult = ({ movie }) => {
       <p>Genre: {movie.movieGenres && getGenreNames(movie.movieGenres)}</p>
       <p>Release Date: {movie.movieReleaseDate}</p>
       <p>Overview: {movie.movieOverview}</p>
-      <p>Rating: {movie.movieRating}/10</p>
+      <p>Rating: {movie.movieRating}/5</p>
     </div>
   );
 };

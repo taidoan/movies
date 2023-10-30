@@ -6,6 +6,7 @@ const FormOptions = ({
   handleGenreChange,
   actorRef,
   directorRef,
+  setRating,
 }) => {
   return (
     <div className={options.form} id="formOptions">
@@ -32,7 +33,7 @@ const FormOptions = ({
         <option value="10752">War</option>
         <option value="37">Western</option>
       </select>
-      <StarRating />
+      <StarRating setRating={setRating} />
       <label htmlFor="actor">Actor</label>
       <input type="text" id="actor" ref={actorRef}></input>
       <label htmlFor="director">Director</label>

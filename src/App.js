@@ -20,6 +20,7 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
+  const [rating, setRating] = useState("");
 
   const useToggleOptions = () => {
     return useCallback(() => {
@@ -41,7 +42,6 @@ export default function App() {
       const pickedGenre = movieDetails.selectedGenre;
       const pickedActorID = movieDetails.selectedActorID;
       const pickedDirectorID = movieDetails.selectedDirectorID;
-      const [rating, setRating] = useState(0);
 
       /* URL JUST TO GET A RANDOM MOVIE FROM TMDB */
       let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990`;
@@ -52,6 +52,17 @@ export default function App() {
       }
 
       // HAS A RATING BEEN SELECTED?
+      if (rating === 1) {
+        url += `&vote_average.gte=0&vote_average.lte=2`;
+      } else if (rating === 2) {
+        url += `&vote_average.gte=2&vote_average.lte=4`;
+      } else if (rating === 3) {
+        url += `&vote_average.gte=4&vote_average.lte=6`;
+      } else if (rating === 4) {
+        url += `&vote_average.gte=6&vote_average.lte=9`;
+      } else if (rating === 5) {
+        url += `&vote_average.gte=10`;
+      }
 
       // HAS ACTOR OR DIRECTOR BEEN PICKED?
       if (pickedActorID > 0 && pickedDirectorID > 0) {
@@ -79,11 +90,13 @@ export default function App() {
         const movie = results[random];
 
         // STORE THE RESULT IN STATE
+        const ratingOutOfFive = movie.vote_average / 2;
+
         setMovieDetails((prevState) => ({
           ...prevState,
           movieName: movie.title,
           movieGenres: movie.genre_ids,
-          movieRating: movie.vote_average,
+          movieRating: Math.round(ratingOutOfFive),
           moviePosterPath: movie.poster_path,
           movieReleaseDate: movie.release_date,
           movieOverview: movie.overview,
@@ -97,7 +110,7 @@ export default function App() {
       fetchData();
       setFormSubmitted(false);
     }
-  }, [formSubmitted, movieDetails]);
+  }, [formSubmitted, movieDetails, rating]);
 
   // SELECT A GENRE
   const handleGenreChange = (event) => {
@@ -175,6 +188,7 @@ export default function App() {
           handleGenreChange={handleGenreChange}
           actorRef={actorRef}
           directorRef={directorRef}
+          setRating={setRating}
         />
         <button className="btn" type="submit">
           roll

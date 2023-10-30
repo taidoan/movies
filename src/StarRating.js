@@ -1,16 +1,16 @@
 import { useId, Fragment, useState } from "react";
 import starRating from "./styles/components/starRatings.module.scss";
 
-const StarRating = ({ max = 5, children, ...props }) => {
+const StarRating = ({ setRating, max = 5, children, ...props }) => {
   const id = useId();
-  const [rating, setRating] = useState("");
+  const [rating, setLocalRating] = useState("");
   const handleRatingChange = (value) => {
+    setLocalRating(value);
     setRating(value);
   };
-  console.log(rating);
   return (
     <>
-      <label htmlFor={id}>Rating</label>
+      <label>Rating</label>
       <fieldset id={id} {...props} className={starRating.starRatings}>
         <input
           name={id}
