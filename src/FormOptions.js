@@ -1,4 +1,5 @@
 import options from "./styles/components/options.module.scss";
+import StarRating from "./StarRating";
 
 const FormOptions = ({
   selectedGenre,
@@ -31,6 +32,7 @@ const FormOptions = ({
         <option value="10752">War</option>
         <option value="37">Western</option>
       </select>
+      <StarRating />
       <label htmlFor="actor">Actor</label>
       <input type="text" id="actor" ref={actorRef}></input>
       <label htmlFor="director">Director</label>

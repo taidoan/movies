@@ -40,8 +40,8 @@ export default function App() {
     const fetchData = async () => {
       const pickedGenre = movieDetails.selectedGenre;
       const pickedActorID = movieDetails.selectedActorID;
-      const pickedDirector = movieDetails.selectedDirector;
       const pickedDirectorID = movieDetails.selectedDirectorID;
+      const [rating, setRating] = useState(0);
 
       /* URL JUST TO GET A RANDOM MOVIE FROM TMDB */
       let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990`;
@@ -50,6 +50,8 @@ export default function App() {
       if (pickedGenre && pickedGenre !== "any") {
         url += `&with_genres=${pickedGenre}`;
       }
+
+      // HAS A RATING BEEN SELECTED?
 
       // HAS ACTOR OR DIRECTOR BEEN PICKED?
       if (pickedActorID > 0 && pickedDirectorID > 0) {
@@ -167,7 +169,6 @@ export default function App() {
       <button className="btn btn-options" onClick={toggleOptions}>
         Options
       </button>
-      <hr />
       <form onSubmit={handleSubmit}>
         <FormOptions
           selectedGenre={movieDetails.selectedGenre}
@@ -175,9 +176,16 @@ export default function App() {
           actorRef={actorRef}
           directorRef={directorRef}
         />
-        <button type="submit">roll</button>
+        <button className="btn" type="submit">
+          roll
+        </button>
       </form>
-      {showResult && <MovieResult movie={movieDetails} />}
+      {showResult && (
+        <div>
+          <hr />
+          <MovieResult movie={movieDetails} />
+        </div>
+      )}
     </div>
   );
 }

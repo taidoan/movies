@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap");
 
 body {
-  background-color: $white;
+  background-color: shade($white, 5%);
   color: $primary-text-clr;
   font-family: $body-ff;
   padding: rem(32);
