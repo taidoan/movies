@@ -20,6 +20,7 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
+  const [buttonText, setButtonText] = useState("Suggest Film");
   const [rating, setRating] = useState("");
   const actorRef = useRef(null);
   const directorRef = useRef(null);
@@ -79,6 +80,11 @@ export default function App() {
 
         // STORE THE RESULT IN STATE
         const ratingOutOfFive = movie.vote_average / 2;
+        const dateParts = movie.release_date.split("-");
+        const releaseDate =
+          dateParts.length === 3
+            ? dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0]
+            : "Invalid Date Format";
 
         setMovieDetails((prevState) => ({
           ...prevState,
@@ -86,7 +92,7 @@ export default function App() {
           movieGenres: movie.genre_ids,
           movieRating: Math.round(ratingOutOfFive),
           moviePosterPath: movie.poster_path,
-          movieReleaseDate: movie.release_date,
+          movieReleaseDate: releaseDate,
           movieOverview: movie.overview,
         }));
         lastIndexRef.current = random;
@@ -97,6 +103,7 @@ export default function App() {
     if (formSubmitted) {
       fetchData();
       setFormSubmitted(false);
+      setButtonText("Suggest Another");
     }
   }, [formSubmitted, movieDetails, rating]);
 
@@ -167,6 +174,11 @@ export default function App() {
         Use this to search for a random film to watch. Use the options to get
         more specific or just get a random one.
       </p>
+      {showResult && (
+        <div>
+          <MovieResult movie={movieDetails} />
+        </div>
+      )}
       <form onSubmit={handleSubmit} id="picker">
         <FormOptions
           selectedGenre={movieDetails.selectedGenre}
@@ -176,13 +188,8 @@ export default function App() {
           setRating={setRating}
         />
       </form>
-      {showResult && (
-        <div>
-          <MovieResult movie={movieDetails} />
-        </div>
-      )}
       <button className="btn" type="submit" form="picker">
-        Suggest Film
+        {buttonText}
       </button>
     </div>
   );
