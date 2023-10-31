@@ -1,10 +1,76 @@
 @use "../_global" as *;
 @use "../_functions" as *;
 
+.container {
+  background-color: $primary-clr--light;
+  border-radius: rem(12);
+  color: $white;
+  margin-top: rem(24);
+  padding: rem(12);
+}
+
+.button {
+  background-color: transparent;
+  border: 0;
+  color: $primary-text-clr;
+  display: grid;
+  font-size: rem(18);
+  font-weight: 600;
+  grid-template-columns: 1fr auto;
+  text-align: left;
+  width: 100%;
+
+  &::after {
+    content: "▼";
+  }
+
+  &--expanded::after {
+    content: "▲";
+  }
+}
+
 .form {
-  background-color: shade($white, 7.5%);
+  align-items: center;
+  background-color: shade($primary-clr--light, 10%);
   border-radius: rem(12);
   display: none;
-  grid-template-columns: auto 1fr;
+  gap: rem(10);
+  grid-template-columns: 1fr 3fr;
+  margin-top: rem(16);
   padding: rem(16);
+  text-align: left;
+}
+
+.form_label {
+  font-size: rem(14);
+  font-weight: 600;
+}
+
+.input_field,
+.options_field {
+  background-color: tint($primary-clr--light, 5%);
+  border: 0;
+  border-radius: rem(6);
+  color: tint($oxford-blue-3, 50%);
+  font-family: $body-ff;
+  font-weight: rem(15);
+  padding: rem(8);
+
+  &:focus {
+    color: $white;
+    outline: 1px solid tint($primary-clr--light, 15%);
+  }
+}
+
+.input_field:-webkit-autofill,
+.input_field:-webkit-autofill:hover,
+.input_field:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+.options_field:-webkit-autofill,
+.options_field:-webkit-autofill:hover,
+.options_field:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px tint($primary-clr--light, 5%) inset;
+  -webkit-text-fill-color: tint($oxford-blue-3, 50%);
 }

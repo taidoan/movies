@@ -1,16 +1,17 @@
 import { useId, Fragment, useState } from "react";
 import starRating from "./styles/components/starRatings.module.scss";
+import options from "./styles/components/options.module.scss";
 
 const StarRating = ({ setRating, max = 5, children, ...props }) => {
   const id = useId();
-  const [rating, setLocalRating] = useState("");
+  const [rating, setLocalRating] = useState(null);
   const handleRatingChange = (value) => {
     setLocalRating(value);
     setRating(value);
   };
   return (
     <>
-      <label>Rating</label>
+      <label className={options.form_label}>Rating</label>
       <fieldset id={id} {...props} className={starRating.starRatings}>
         <input
           name={id}
@@ -38,7 +39,12 @@ const StarRating = ({ setRating, max = 5, children, ...props }) => {
               <span className={starRating.hideVisual}>
                 {i + 1} Star{i === 0 ? "" : "s"}
               </span>
-              <span aria-hidden="true" className={starRating.star}>
+              <span
+                aria-hidden="true"
+                className={`${starRating.star} ${
+                  rating !== null && i < rating ? starRating.selected : ""
+                }`}
+              >
                 {children || "★"}
               </span>
             </label>

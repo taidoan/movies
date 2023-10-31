@@ -29,12 +29,13 @@
 .starRatings {
   border: 0;
   display: inline-flex;
-  font-size: 40px;
+  font-size: rem(20);
   padding: 0;
 }
 
 .starRatings:focus-within {
-  outline: 3px solid #add8e6;
+  border-radius: rem(4);
+  outline: 1px solid tint($primary-clr--light, 15%);
 }
 
 .starRatings label {
@@ -44,28 +45,12 @@
 }
 
 .starRatings label .star {
+  color: tint($primary-clr--light, 5%);
   display: inline-block;
   height: 1em;
   width: 1em;
-}
 
-.starRatings > label {
-  -webkit-text-stroke: 2px black;
-}
-
-.starRatings input:checked ~ label > span.star,
-.starRatings > label:hover ~ input ~ label > span.star {
-  color: #fff;
-}
-
-.starRatings span.star,
-.starRatings:hover > input + label > span.star,
-.starRatings > input:checked + label > span.star,
-.starRatings > input ~ label:hover > span.star {
-  color: gold;
-}
-
-.starRatings > input ~ label:hover > span.star,
-.starRatings > input ~ label:focus > span.star {
-  color: orange;
+  &.selected {
+    color: $oxford-blue-3;
+  }
 }

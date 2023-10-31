@@ -2,15 +2,25 @@
 
 $verdigris: hsla(173, 50%, 54%, 1);
 $ghost-white: hsla(240, 100%, 98%, 1);
-$black: hsla(233, 40%, 4%, 1);
 $savoy-blue: hsla(235, 60%, 59%, 1);
 $emerald: hsla(164, 95%, 43%, 1);
 
-$primary-clr: $savoy-blue;
-$secondary-clr: $emerald;
+$oxford-blue: hsla(225, 60%, 16%, 1);
+$oxford-blue-2: hsla(226, 60%, 10%, 1);
+$oxford-blue-3: rgb(131, 162, 254);
+$oxford-blue-4: rgb(28, 51, 115);
+$rusty-red: hsla(355, 64%, 52%, 1);
+$white: hsla(240, 100%, 100%, 1);
+$black: hsla(233, 40%, 4%, 1);
+$silver: hsla(0, 0%, 80%, 1);
+
+$primary-clr: $oxford-blue;
+$primary-clr--dark: $oxford-blue-2;
+$primary-clr--light: $oxford-blue-4;
+$secondary-clr: $rusty-red;
+
 $accent-clr: $verdigris;
-$white: $ghost-white;
-$primary-text-clr: $black;
+$primary-text-clr: $oxford-blue-3;
 
 // Typography
 

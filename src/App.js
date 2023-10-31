@@ -21,18 +21,6 @@ export default function App() {
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
   const [rating, setRating] = useState("");
-
-  const useToggleOptions = () => {
-    return useCallback(() => {
-      const formOptions = document.getElementById("formOptions");
-      formOptions.style.display =
-        formOptions.style.display === "none" || formOptions.style.display === ""
-          ? "grid"
-          : "none";
-    }, []);
-  };
-
-  const toggleOptions = useToggleOptions();
   const actorRef = useRef(null);
   const directorRef = useRef(null);
   const lastIndexRef = useRef(null);
@@ -55,13 +43,13 @@ export default function App() {
       if (rating === 1) {
         url += `&vote_average.gte=0&vote_average.lte=2`;
       } else if (rating === 2) {
-        url += `&vote_average.gte=2&vote_average.lte=4`;
+        url += `&vote_average.gte=3&vote_average.lte=4`;
       } else if (rating === 3) {
-        url += `&vote_average.gte=4&vote_average.lte=6`;
+        url += `&vote_average.gte=5&vote_average.lte=6`;
       } else if (rating === 4) {
-        url += `&vote_average.gte=6&vote_average.lte=9`;
+        url += `&vote_average.gte=7&vote_average.lte=9`;
       } else if (rating === 5) {
-        url += `&vote_average.gte=10`;
+        url += `&vote_average.gte=9&vote_average.lte=10`;
       }
 
       // HAS ACTOR OR DIRECTOR BEEN PICKED?
@@ -179,10 +167,7 @@ export default function App() {
         Use this to search for a random film to watch. Use the options to get
         more specific or just get a random one.
       </p>
-      <button className="btn btn-options" onClick={toggleOptions}>
-        Options
-      </button>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} id="picker">
         <FormOptions
           selectedGenre={movieDetails.selectedGenre}
           handleGenreChange={handleGenreChange}
@@ -190,16 +175,15 @@ export default function App() {
           directorRef={directorRef}
           setRating={setRating}
         />
-        <button className="btn" type="submit">
-          roll
-        </button>
       </form>
       {showResult && (
         <div>
-          <hr />
           <MovieResult movie={movieDetails} />
         </div>
       )}
+      <button className="btn" type="submit" form="picker">
+        Suggest Film
+      </button>
     </div>
   );
 }
