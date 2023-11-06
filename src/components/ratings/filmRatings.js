@@ -1,18 +1,42 @@
 import { useId, Fragment, useState } from "react";
-import starRating from "./styles/components/starRatings.module.scss";
-import options from "./styles/components/options.module.scss";
+import ratings from "./filmRatings.module.scss";
+import options from "./../../styles/components/options.module.scss";
 
-const StarRating = ({ setRating, max = 5, children, ...props }) => {
+export const Ratings = ({ rating }) => {
+  const max_rating = 5;
+  const stars = Array.from({ length: max_rating }, (_, index) => (
+    <span
+      key={index}
+      className={`${ratings.star} ${
+        index < rating ? `${ratings.starFilled}` : ""
+      }`}
+    >
+      ★
+    </span>
+  ));
+
+  return (
+    <div className={ratings.starList}>
+      {stars}
+      <span className={ratings.textRating}>
+        ({rating}/{max_rating})
+      </span>
+    </div>
+  );
+};
+
+export const SetRating = ({ setRating, max = 5, children, ...props }) => {
   const id = useId();
   const [rating, setLocalRating] = useState(null);
   const handleRatingChange = (value) => {
     setLocalRating(value);
     setRating(value);
   };
+
   return (
     <>
       <label className={options.form_label}>Rating</label>
-      <fieldset id={id} {...props} className={starRating.starRatings}>
+      <fieldset id={id} {...props} className={ratings.starRatings}>
         <input
           name={id}
           value="0"
@@ -22,7 +46,7 @@ const StarRating = ({ setRating, max = 5, children, ...props }) => {
           onChange={() => handleRatingChange(0)}
         />
         <label htmlFor={`${id}0`}>
-          <span className={starRating.hideVisual}>0 Stars</span>
+          <span className={ratings.hideVisual}>0 Stars</span>
         </label>
 
         {Array.from({ length: max }).map((_, i) => (
@@ -36,13 +60,13 @@ const StarRating = ({ setRating, max = 5, children, ...props }) => {
               onChange={() => handleRatingChange(i + 1)}
             />
             <label htmlFor={`${id}${i + 1}`}>
-              <span className={starRating.hideVisual}>
+              <span className={ratings.hideVisual}>
                 {i + 1} Star{i === 0 ? "" : "s"}
               </span>
               <span
                 aria-hidden="true"
-                className={`${starRating.star} ${
-                  rating !== null && i < rating ? starRating.selected : ""
+                className={`${ratings.star} ${
+                  rating !== null && i < rating ? ratings.selected : ""
                 }`}
               >
                 {children || "★"}
@@ -54,5 +78,3 @@ const StarRating = ({ setRating, max = 5, children, ...props }) => {
     </>
   );
 };
-
-export default StarRating;

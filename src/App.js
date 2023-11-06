@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from "react";
-import { fetchMovies } from "./utils/fetchMovies";
-import { fetchActorData } from "./utils/fetchActorData";
-import { fetchDirectorData } from "./utils/fetchDirectorData";
-import MovieResult from "./Result";
+import { fetchMovies } from "./hooks/fetchMovies";
+import { fetchMovieDetails } from "./hooks/fetchMovieDetails";
+import { fetchActorData } from "./hooks/fetchActorData";
+import { fetchDirectorData } from "./hooks/fetchDirectorData";
+import ResultCard from "./components/result/resultCard";
 import FormOptions from "./FormOptions";
 
 export default function App() {
@@ -50,7 +51,7 @@ export default function App() {
       } else if (rating === 4) {
         url += `&vote_average.gte=7&vote_average.lte=9`;
       } else if (rating === 5) {
-        url += `&vote_average.gte=9&vote_average.lte=10`;
+        url += `&vote_average.gte=10`;
       }
 
       // HAS ACTOR OR DIRECTOR BEEN PICKED?
@@ -64,10 +65,9 @@ export default function App() {
         url += `&page=${randomPage}`;
       }
 
-      console.log(url);
       const results = await fetchMovies(url, options);
 
-      if (results.length > 0) {
+      if (results && results.length > 0) {
         // GRAB A RANDOM RESULT
         let random = Math.floor(Math.random() * results.length);
         while (
@@ -82,16 +82,16 @@ export default function App() {
         const ratingOutOfFive = movie.vote_average / 2;
         const dateParts = movie.release_date.split("-");
         const releaseDate =
-          dateParts.length === 3
-            ? dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0]
-            : "Invalid Date Format";
+          dateParts.length === 3 ? dateParts[0] : "Invalid Date Format";
 
         setMovieDetails((prevState) => ({
           ...prevState,
+          movieID: movie.id,
           movieName: movie.title,
           movieGenres: movie.genre_ids,
           movieRating: Math.round(ratingOutOfFive),
           moviePosterPath: movie.poster_path,
+          movieBackdrop: movie.backdrop_path,
           movieReleaseDate: releaseDate,
           movieOverview: movie.overview,
         }));
@@ -106,6 +106,136 @@ export default function App() {
       setButtonText("Suggest Another");
     }
   }, [formSubmitted, movieDetails, rating]);
+
+  useEffect(() => {
+    const fetchMovieMeta = async () => {
+      if (movieDetails.movieID) {
+        const movieMeta = await fetchMovieDetails(
+          `https://api.themoviedb.org/3/movie/${movieDetails.movieID}?language=en-US&append_to_response=release_dates,videos,watch/providers`,
+          options
+        );
+
+        // Get Run Time
+        if (movieMeta?.runtime) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieRunTime: movieMeta.runtime || null,
+          }));
+        }
+
+        // Get Age Rating
+        if (
+          movieMeta.release_dates &&
+          movieMeta.release_dates.results &&
+          movieMeta.release_dates.results.length > 0
+        ) {
+          let ageRating;
+          const ageRatingGB = movieMeta.release_dates.results.find((item) =>
+            item.iso_3166_1.includes("GB")
+          );
+          const ageRatingUS = movieMeta.release_dates.results.find((item) =>
+            item.iso_3166_1.includes("US")
+          );
+
+          if (ageRatingGB) {
+            ageRating = ageRatingGB.release_dates[0].certification;
+          } else if (ageRatingUS) {
+            ageRating = ageRatingUS.release_dates[0].certification;
+          } else {
+            const randomIndex = Math.floor(
+              Math.random() * movieMeta.release_dates.results.length
+            );
+            const randomResult = movieMeta.release_dates.results[randomIndex];
+            ageRating = randomResult.release_dates[0].certification;
+          }
+
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieAgeRating: ageRating || "N/A",
+          }));
+        }
+
+        // Get Trailer Details
+        const trailers = movieMeta.videos.results.filter((item) =>
+          item.name.includes("Trailer")
+        );
+
+        const publishedDates = trailers.map((trailer) => ({
+          ...trailer,
+          published_at: new Date(trailer.published_at),
+        }));
+
+        const earliestTrailer =
+          publishedDates.length > 0
+            ? publishedDates.reduce((earliest, current) =>
+                current.published_at < earliest.published_at
+                  ? current
+                  : earliest
+              )
+            : null;
+
+        if (earliestTrailer?.key) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieTrailer:
+              `https://www.youtube.com/watch?v=` + earliestTrailer.key,
+          }));
+        } else {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieTrailer: null,
+          }));
+        }
+
+        // Get Watch Providers
+        const providers = movieMeta["watch/providers"]?.results?.GB;
+
+        if (providers?.link) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieWatchLink: providers.link,
+          }));
+        }
+
+        if (providers?.buy) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieBuyProviders: providers.buy || null,
+          }));
+        } else {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieBuyProviders: null,
+          }));
+        }
+
+        if (providers?.flatrate) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieStreamingProviders: providers.flatrate,
+          }));
+        } else {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieStreamingProviders: null,
+          }));
+        }
+
+        if (providers?.rent) {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieRentProviders: providers.rent || null,
+          }));
+        } else {
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieRentProviders: null,
+          }));
+        }
+      }
+    };
+    fetchMovieMeta();
+  }, [movieDetails.movieID]);
 
   // SELECT A GENRE
   const handleGenreChange = (event) => {
@@ -165,7 +295,7 @@ export default function App() {
 
   useEffect(() => {
     console.log(movieDetails);
-  }, [movieDetails.movieName]);
+  }, [movieDetails.movieRunTime]);
 
   return (
     <div className="container">
@@ -174,11 +304,7 @@ export default function App() {
         Use this to search for a random film to watch. Use the options to get
         more specific or just get a random one.
       </p>
-      {showResult && (
-        <div>
-          <MovieResult movie={movieDetails} />
-        </div>
-      )}
+      {showResult && <ResultCard movie={movieDetails} />}
       <form onSubmit={handleSubmit} id="picker">
         <FormOptions
           selectedGenre={movieDetails.selectedGenre}
@@ -191,6 +317,7 @@ export default function App() {
       <button className="btn" type="submit" form="picker">
         {buttonText}
       </button>
+      {showResult && <p>Data provided by JustWatch</p>}
     </div>
   );
 }

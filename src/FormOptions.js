@@ -1,5 +1,5 @@
 import options from "./styles/components/options.module.scss";
-import StarRating from "./StarRating";
+import { SetRating } from "./components/ratings/filmRatings";
 import { useCallback } from "react";
 
 const FormOptions = ({
@@ -63,7 +63,7 @@ const FormOptions = ({
           <option value="10752">War</option>
           <option value="37">Western</option>
         </select>
-        <StarRating setRating={setRating} />
+        <SetRating setRating={setRating} />
         <label htmlFor="actor" className={options.form_label}>
           Actor
         </label>
@@ -72,7 +72,7 @@ const FormOptions = ({
           id="actor"
           ref={actorRef}
           className={options.input_field}
-          autocomplete="off"
+          autoComplete="off"
           aria-autocomplete="none"
         ></input>
         <label htmlFor="director" className={options.form_label}>
@@ -84,7 +84,7 @@ const FormOptions = ({
           name="director"
           ref={directorRef}
           className={options.input_field}
-          autocomplete="off"
+          autoComplete="off"
           aria-autocomplete="none"
         ></input>
       </div>
