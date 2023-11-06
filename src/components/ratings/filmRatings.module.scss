@@ -2,6 +2,7 @@
 @use "../../styles/functions" as *;
 
 .starList {
+  align-items: center;
   display: flex;
 }
 
@@ -11,6 +12,12 @@
 
 .starFilled {
   color: $oxford-blue-3;
+}
+
+.textRating {
+  color: rgba($white, 0.75);
+  font-size: rem(12);
+  margin-left: rem(4);
 }
 
 .hideVisual,

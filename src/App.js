@@ -111,9 +111,47 @@ export default function App() {
     const fetchMovieMeta = async () => {
       if (movieDetails.movieID) {
         const movieMeta = await fetchMovieDetails(
-          `https://api.themoviedb.org/3/movie/${movieDetails.movieID}?language=en-US&append_to_response=release_dates,videos,watch/providers`,
+          `https://api.themoviedb.org/3/movie/${movieDetails.movieID}?language=en-US&append_to_response=release_dates,videos,watch/providers,credits`,
           options
         );
+
+        // Gets First 3 Cast Members
+        if (movieMeta?.credits && movieMeta?.credits.cast) {
+          const filteredCast = movieMeta.credits.cast
+            .filter((item) => item.known_for_department === "Acting")
+            .filter(
+              (item, index, self) =>
+                self.findIndex((i) => i.id === item.id) === index
+            )
+            .slice(0, 3); // Gets first 3 actors
+
+          const castNames = filteredCast.map((item) => item.name);
+
+          setMovieDetails((prevState) => ({
+            ...prevState,
+            movieCast: castNames,
+          }));
+        }
+
+        // Gets The Director
+        if (movieMeta?.credits && movieMeta?.credits.crew) {
+          const filteredCrew = movieMeta.credits.crew.filter(
+            (item) => item.known_for_department === "Directing"
+          );
+
+          if (filteredCrew.length > 0) {
+            const directorName = filteredCrew[0].name;
+            setMovieDetails((prevState) => ({
+              ...prevState,
+              movieDirector: directorName,
+            }));
+          } else {
+            setMovieDetails((prevState) => ({
+              ...prevState,
+              movieDirector: null,
+            }));
+          }
+        }
 
         // Get Run Time
         if (movieMeta?.runtime) {
