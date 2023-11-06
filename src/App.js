@@ -16,7 +16,6 @@ export default function App() {
     },
   };
 
-  const randomPage = Math.floor(Math.random() * 500);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
@@ -24,16 +23,17 @@ export default function App() {
   const [buttonIcon, setButtonIcon] = useState(faPlay);
   const [rating, setRating] = useState("");
   const lastIndexRef = useRef(null);
-  const [pages, setPages] = useState();
+  let page = Math.floor(Math.random() * 500);
 
   useEffect(() => {
     const fetchData = async () => {
       const pickedGenre = movieDetails.selectedGenre;
       const pickedActorID = movieDetails.selectedActorID;
       const pickedDirectorID = movieDetails.selectedDirectorID;
+      let updatedMovieData = null;
 
       /* URL JUST TO GET A RANDOM MOVIE FROM TMDB */
-      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990`;
+      let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990&page=${page}`;
 
       // HAS A GENERE BEEN PICKED?
       if (pickedGenre && pickedGenre !== "any") {
@@ -62,13 +62,18 @@ export default function App() {
         url += `&with_crew=${pickedDirectorID}`;
       }
 
-      const data = await fetchMovies(url, options);
-      const results = data.results;
-      const totalPages = Math.min(data.total_pages, 500);
+      const movieData = await fetchMovies(url, options);
+      const totalPages = Math.min(movieData.total_pages, 500);
       const randomTotalPage = Math.floor(Math.random() * totalPages) + 1;
-      setPages(randomTotalPage);
+      const updatedUrl = url.replace(/&page=\d+/, `&page=${randomTotalPage}`);
 
-      url += `&page=${randomTotalPage}`;
+      if (pickedGenre || rating || pickedActorID || pickedDirectorID) {
+        updatedMovieData = await fetchMovies(updatedUrl, options);
+      }
+
+      const results = updatedMovieData
+        ? updatedMovieData.results
+        : movieData.results;
 
       if (results && results.length > 0) {
         // GRAB A RANDOM RESULT
@@ -109,7 +114,7 @@ export default function App() {
       setButtonText("Suggest Another");
       setButtonIcon(faRotate);
     }
-  }, [formSubmitted, movieDetails, rating]);
+  }, [formSubmitted, movieDetails, rating, page]);
 
   useEffect(() => {
     const fetchMovieMeta = async () => {
