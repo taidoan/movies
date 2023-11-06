@@ -39,6 +39,9 @@ button.btn {
   margin-top: rem(24);
   padding: rem(12);
   text-transform: uppercase;
+  svg {
+    margin-left: rem(8);
+  }
 }
 
 img.thumbnail {
@@ -49,4 +52,8 @@ img.thumbnail {
 
 .form-options {
   display: none;
+}
+
+.credits {
+  margin-top: rem(16);
 }

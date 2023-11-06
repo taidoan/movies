@@ -8,7 +8,7 @@ import WatchTrailer from "../watchTrailer/watchTrailerButton";
 const ResultCard = ({ movie }) => {
   return (
     <div key={movie.id} className={results.card}>
-      {movie.moviePosterPath ? (
+      {movie.movieBackdrop ? (
         <img
           src={"https://image.tmdb.org/t/p/original/" + movie.movieBackdrop}
           className={results.image}
@@ -44,14 +44,18 @@ const ResultCard = ({ movie }) => {
           </span>
         </li>
       </ul>
-      <ul className={results.meta}>
+      <ul className={`${results.meta} ${results.metaCrew}`}>
         <li className={results.metaEntry}>
           <span className={results.metaKey}>Director:</span>
-          <span className={results.metaValue}>{movie.movieDirector}</span>
+          <span className={results.metaValue}>
+            {movie.movieDirector && movie.movieDirector}
+          </span>
         </li>
         <li className={results.metaEntry}>
           <span className={results.metaKey}>Cast:</span>
-          <span className={results.metaValue}>{movie.movieCast}</span>
+          <span className={results.metaValue}>
+            {movie.movieCast ? movie.movieCast.join(", ") : ""}
+          </span>
         </li>
       </ul>
       {movie.movieOverview && (
@@ -60,7 +64,11 @@ const ResultCard = ({ movie }) => {
           <p className={results.overviewParagraph}>{movie.movieOverview}</p>
         </div>
       )}
-      {movie.movieStreamingProviders && <StreamingProviders movie={movie} />}
+      {movie.movieStreamingProviders && (
+        <div className={results.streamingProviders}>
+          <StreamingProviders movie={movie} />
+        </div>
+      )}
       {movie.movieTrailer && <WatchTrailer link={movie} />}
     </div>
   );

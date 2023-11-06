@@ -5,7 +5,8 @@ import { fetchActorData } from "./hooks/fetchActorData";
 import { fetchDirectorData } from "./hooks/fetchDirectorData";
 import ResultCard from "./components/result/resultCard";
 import FormOptions from "./FormOptions";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
 export default function App() {
   /* TMDB API STUFF */
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -21,7 +22,8 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
-  const [buttonText, setButtonText] = useState("Suggest Film");
+  const [buttonText, setButtonText] = useState(`Suggest Film`);
+  const [buttonIcon, setButtonIcon] = useState(faPlay);
   const [rating, setRating] = useState("");
   const actorRef = useRef(null);
   const directorRef = useRef(null);
@@ -104,6 +106,7 @@ export default function App() {
       fetchData();
       setFormSubmitted(false);
       setButtonText("Suggest Another");
+      setButtonIcon(faRotate);
     }
   }, [formSubmitted, movieDetails, rating]);
 
@@ -136,7 +139,7 @@ export default function App() {
         // Gets The Director
         if (movieMeta?.credits && movieMeta?.credits.crew) {
           const filteredCrew = movieMeta.credits.crew.filter(
-            (item) => item.known_for_department === "Directing"
+            (item) => item.job === "Director"
           );
 
           if (filteredCrew.length > 0) {
@@ -353,9 +356,9 @@ export default function App() {
         />
       </form>
       <button className="btn" type="submit" form="picker">
-        {buttonText}
+        {buttonText} <FontAwesomeIcon icon={buttonIcon} />
       </button>
-      {showResult && <p>Data provided by JustWatch</p>}
+      {showResult && <p className="credits">Data provided by JustWatch</p>}
     </div>
   );
 }

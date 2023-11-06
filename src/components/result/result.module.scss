@@ -29,6 +29,15 @@
   overflow: hidden;
 }
 
+.metaCrew .metaEntry {
+  grid-template-columns: 0.5fr 1fr;
+  justify-items: start;
+
+  .metaValue {
+    text-align: left;
+  }
+}
+
 .metaEntry {
   align-items: center;
   background-color: shade($primary-clr--light, 17.5%);
@@ -56,14 +65,18 @@
   text-align: right;
 }
 
+.streamingProviders,
 .overview {
   background-color: shade($primary-clr--light, 10%);
   border-radius: rem(12);
+  font-size: rem(15);
+  padding: rem(12);
+}
+
+.overview {
   color: rgba($white, 0.75);
   display: grid;
-  font-size: rem(15);
   gap: rem(8);
-  padding: rem(12);
 
   .overviewHeading {
     color: $white;
