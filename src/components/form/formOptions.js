@@ -1,5 +1,5 @@
-import options from "./styles/components/options.module.scss";
-import { SetRating } from "./components/ratings/filmRatings";
+import options from "./../../styles/components/options.module.scss";
+import { SetRating } from "../ratings/filmRatings";
 import { useCallback } from "react";
 
 const FormOptions = ({

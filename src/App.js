@@ -1,10 +1,8 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { fetchMovies } from "./hooks/fetchMovies";
 import { fetchMovieDetails } from "./hooks/fetchMovieDetails";
-import { fetchActorData } from "./hooks/fetchActorData";
-import { fetchDirectorData } from "./hooks/fetchDirectorData";
 import ResultCard from "./components/result/resultCard";
-import FormOptions from "./FormOptions";
+import MoviePickerForm from "./components/form/form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
 export default function App() {
@@ -25,8 +23,6 @@ export default function App() {
   const [buttonText, setButtonText] = useState(`Suggest Film`);
   const [buttonIcon, setButtonIcon] = useState(faPlay);
   const [rating, setRating] = useState("");
-  const actorRef = useRef(null);
-  const directorRef = useRef(null);
   const lastIndexRef = useRef(null);
 
   useEffect(() => {
@@ -278,62 +274,6 @@ export default function App() {
     fetchMovieMeta();
   }, [movieDetails.movieID]);
 
-  // SELECT A GENRE
-  const handleGenreChange = (event) => {
-    setMovieDetails((prevState) => ({
-      ...prevState,
-      selectedGenre: event.target.value,
-    }));
-  };
-
-  // WHAT TO DO WHEN FORM SUBMITS
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // IF AN ACTOR IS SUBMITTED, SET DETAILS
-    if (actorRef.current.value.trim() === "") {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        selectedActor: null,
-        selectedActorID: 0,
-        selectedActorName: "",
-      }));
-    } else {
-      const { id, name } = await fetchActorData(
-        actorRef.current.value,
-        options
-      );
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        selectedActor: actorRef.current.value,
-        selectedActorID: id,
-        selectedActorName: name,
-      }));
-    }
-
-    // IF A DIRECTOR IS SUBMITTED, SET DETAILS
-    if (directorRef.current.value.trim() === "") {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        selectedDirector: null,
-      }));
-    } else {
-      const { id, name } = await fetchDirectorData(
-        directorRef.current.value,
-        options
-      );
-
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        selectedDirector: directorRef.current.value,
-        selectedDirectorID: id,
-        selectedDirectorName: name,
-      }));
-    }
-
-    setFormSubmitted(true);
-  };
-
   useEffect(() => {
     console.log(movieDetails);
   }, [movieDetails.movieRunTime]);
@@ -346,16 +286,13 @@ export default function App() {
         more specific or just get a random one.
       </p>
       {showResult && <ResultCard movie={movieDetails} />}
-      <form onSubmit={handleSubmit} id="picker">
-        <FormOptions
-          selectedGenre={movieDetails.selectedGenre}
-          handleGenreChange={handleGenreChange}
-          actorRef={actorRef}
-          directorRef={directorRef}
-          setRating={setRating}
-        />
-      </form>
-      <button className="btn" type="submit" form="picker">
+      <MoviePickerForm
+        setMovieDetails={setMovieDetails}
+        options={options}
+        movieDetails={movieDetails}
+        setFormSubmitted={setFormSubmitted}
+      />
+      <button className="btn" type="submit" form="moviePicker">
         {buttonText} <FontAwesomeIcon icon={buttonIcon} />
       </button>
       {showResult && <p className="credits">Data provided by JustWatch</p>}

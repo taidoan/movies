@@ -10,7 +10,13 @@ const ResultCard = ({ movie }) => {
     <div key={movie.id} className={results.card}>
       {movie.movieBackdrop ? (
         <img
-          src={"https://image.tmdb.org/t/p/original/" + movie.movieBackdrop}
+          src={`https://image.tmdb.org/t/p/original/${movie.movieBackdrop}`}
+          className={results.image}
+          alt={movie.selectedMovie}
+        />
+      ) : movie.moviePosterPath ? (
+        <img
+          src={`https://image.tmdb.org/t/p/original/${movie.moviePosterPath}`}
           className={results.image}
           alt={movie.selectedMovie}
         />
