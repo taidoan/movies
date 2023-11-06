@@ -24,6 +24,7 @@ export default function App() {
   const [buttonIcon, setButtonIcon] = useState(faPlay);
   const [rating, setRating] = useState("");
   const lastIndexRef = useRef(null);
+  const [pages, setPages] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,11 +60,15 @@ export default function App() {
         url += `&with_cast=${pickedActorID}`;
       } else if (pickedDirectorID > 0) {
         url += `&with_crew=${pickedDirectorID}`;
-      } else {
-        url += `&page=${randomPage}`;
       }
 
-      const results = await fetchMovies(url, options);
+      const data = await fetchMovies(url, options);
+      const results = data.results;
+      const totalPages = Math.min(data.total_pages, 500);
+      const randomTotalPage = Math.floor(Math.random() * totalPages) + 1;
+      setPages(randomTotalPage);
+
+      url += `&page=${randomTotalPage}`;
 
       if (results && results.length > 0) {
         // GRAB A RANDOM RESULT

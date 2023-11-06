@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import FormOptions from "./formOptions";
 import { fetchActorData } from "./../../hooks/fetchActorData";
 import { fetchDirectorData } from "./../../hooks/fetchDirectorData";
