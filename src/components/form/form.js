@@ -8,8 +8,8 @@ const MoviePickerForm = ({
   options,
   movieDetails,
   setFormSubmitted,
+  setRating,
 }) => {
-  const [rating, setRating] = useState("");
   const actorRef = useRef(null);
   const directorRef = useRef(null);
 

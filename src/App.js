@@ -291,6 +291,7 @@ export default function App() {
         options={options}
         movieDetails={movieDetails}
         setFormSubmitted={setFormSubmitted}
+        setRating={setRating}
       />
       <button className="btn" type="submit" form="moviePicker">
         {buttonText} <FontAwesomeIcon icon={buttonIcon} />
