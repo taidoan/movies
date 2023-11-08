@@ -11,6 +11,7 @@ const MoviePickerForm = ({
 }) => {
   const actorRef = useRef(null);
   const directorRef = useRef(null);
+  const yearRef = useRef(null);
 
   const handleGenreChange = (event) => {
     setMovieDetails((prevState) => ({
@@ -61,6 +62,20 @@ const MoviePickerForm = ({
       }));
     }
 
+    // Check if year is selected
+
+    if (yearRef.current.value.trim() === "") {
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        selectedYear: null,
+      }));
+    } else {
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        selectedYear: yearRef.current.value,
+      }));
+    }
+
     setFormSubmitted(true);
   };
 
@@ -70,6 +85,7 @@ const MoviePickerForm = ({
         selectedGenre={movieDetails.selectedGenre}
         handleGenreChange={handleGenreChange}
         actorRef={actorRef}
+        yearRef={yearRef}
         directorRef={directorRef}
         setRating={setRating}
       />

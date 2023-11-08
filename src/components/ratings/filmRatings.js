@@ -34,7 +34,7 @@ export const SetRating = ({ setRating, max = 5, children, ...props }) => {
 
   return (
     <>
-      <label className={form.form_label}>Rating</label>
+      <label className={form.form_label}>Rating:</label>
       <fieldset id={id} {...props} className={ratings.starRatings}>
         <input
           name={id}

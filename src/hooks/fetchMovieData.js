@@ -10,6 +10,7 @@ export const fetchMovieData = async (
   const pickedGenre = movieDetails.selectedGenre;
   const pickedActorID = movieDetails.selectedActorID;
   const pickedDirectorID = movieDetails.selectedDirectorID;
+  const pickedYear = movieDetails.selectedYear;
   let updatedMovieData = null;
   let page = Math.floor(Math.random() * 500);
 
@@ -41,6 +42,11 @@ export const fetchMovieData = async (
     url += `&with_cast=${pickedActorID}`;
   } else if (pickedDirectorID > 0) {
     url += `&with_crew=${pickedDirectorID}`;
+  }
+
+  // Has a year been picked?
+  if (pickedYear !== null && pickedYear !== undefined && pickedYear) {
+    url += `&year=${pickedYear}`;
   }
 
   const movieData = await fetchMovies(url, options);

@@ -7,6 +7,7 @@ const FormOptions = ({
   handleGenreChange,
   actorRef,
   directorRef,
+  yearRef,
   setRating,
 }) => {
   const useToggleOptions = () => {
@@ -21,6 +22,7 @@ const FormOptions = ({
     }, []);
   };
   const toggleOptions = useToggleOptions();
+  const thisYear = new Date().getFullYear();
 
   return (
     <div className={form.container}>
@@ -34,7 +36,7 @@ const FormOptions = ({
       </button>
       <div className={form.form} id="formOptions">
         <label htmlFor="genres" className={form.form_label}>
-          Genre
+          Genre:
         </label>
         <select
           id="genres"
@@ -63,9 +65,21 @@ const FormOptions = ({
           <option value="10752">War</option>
           <option value="37">Western</option>
         </select>
+        <label className={form.form_label}>Year:</label>
+        <input
+          id="year"
+          type="number"
+          min="1900"
+          max={thisYear}
+          ref={yearRef}
+          autoComplete="off"
+          aria-autocomplete="off"
+          className={form.input_field}
+          placeholder="YYYY"
+        ></input>
         <SetRating setRating={setRating} />
         <label htmlFor="actor" className={form.form_label}>
-          Actor
+          Actor:
         </label>
         <input
           type="text"
@@ -76,7 +90,7 @@ const FormOptions = ({
           aria-autocomplete="none"
         ></input>
         <label htmlFor="director" className={form.form_label}>
-          Director
+          Director:
         </label>
         <input
           type="text"

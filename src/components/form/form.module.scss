@@ -60,6 +60,10 @@
     color: $white;
     outline: 1px solid tint($primary-clr--light, 15%);
   }
+
+  &::placeholder {
+    color: tint($primary-clr--light, 15%);
+  }
 }
 
 .input_field:-webkit-autofill,
