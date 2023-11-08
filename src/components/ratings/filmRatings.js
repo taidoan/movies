@@ -1,7 +1,6 @@
 import { useId, Fragment, useState } from "react";
 import ratings from "./filmRatings.module.scss";
-import options from "./../../styles/components/options.module.scss";
-
+import form from "./../form/form.module.scss";
 export const Ratings = ({ rating }) => {
   const max_rating = 5;
   const stars = Array.from({ length: max_rating }, (_, index) => (
@@ -35,7 +34,7 @@ export const SetRating = ({ setRating, max = 5, children, ...props }) => {
 
   return (
     <>
-      <label className={options.form_label}>Rating</label>
+      <label className={form.form_label}>Rating</label>
       <fieldset id={id} {...props} className={ratings.starRatings}>
         <input
           name={id}

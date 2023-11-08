@@ -1,4 +1,4 @@
-import options from "./../../styles/components/options.module.scss";
+import form from "./form.module.scss";
 import { SetRating } from "../ratings/filmRatings";
 import { useCallback } from "react";
 
@@ -17,30 +17,30 @@ const FormOptions = ({
         form.style.display === "none" || form.style.display === ""
           ? "grid"
           : "none";
-      button.classList.toggle(options["button--expanded"]);
+      button.classList.toggle(form["button--expanded"]);
     }, []);
   };
   const toggleOptions = useToggleOptions();
 
   return (
-    <div className={options.container}>
+    <div className={form.container}>
       <button
-        className={options.button}
+        className={form.button}
         onClick={toggleOptions}
         type="button"
         id="toggleOptions"
       >
         Options
       </button>
-      <div className={options.form} id="formOptions">
-        <label htmlFor="genres" className={options.form_label}>
+      <div className={form.form} id="formOptions">
+        <label htmlFor="genres" className={form.form_label}>
           Genre
         </label>
         <select
           id="genres"
           value={selectedGenre}
           onChange={handleGenreChange}
-          className={options.options_field}
+          className={form.options_field}
         >
           <option value="any">Any</option>
           <option value="28">Action</option>
@@ -64,18 +64,18 @@ const FormOptions = ({
           <option value="37">Western</option>
         </select>
         <SetRating setRating={setRating} />
-        <label htmlFor="actor" className={options.form_label}>
+        <label htmlFor="actor" className={form.form_label}>
           Actor
         </label>
         <input
           type="text"
           id="actor"
           ref={actorRef}
-          className={options.input_field}
+          className={form.input_field}
           autoComplete="off"
           aria-autocomplete="none"
         ></input>
-        <label htmlFor="director" className={options.form_label}>
+        <label htmlFor="director" className={form.form_label}>
           Director
         </label>
         <input
@@ -83,7 +83,7 @@ const FormOptions = ({
           id="director"
           name="director"
           ref={directorRef}
-          className={options.input_field}
+          className={form.input_field}
           autoComplete="off"
           aria-autocomplete="none"
         ></input>

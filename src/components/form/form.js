@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import FormOptions from "./formOptions";
-import { fetchActorData } from "./../../hooks/fetchActorData";
-import { fetchDirectorData } from "./../../hooks/fetchDirectorData";
+import { fetchPerson } from "../../hooks/fetchPerson";
 
 const MoviePickerForm = ({
   setMovieDetails,
@@ -32,10 +31,7 @@ const MoviePickerForm = ({
         selectedActorName: "",
       }));
     } else {
-      const { id, name } = await fetchActorData(
-        actorRef.current.value,
-        options
-      );
+      const { id, name } = await fetchPerson(actorRef.current.value, options);
       setMovieDetails((prevState) => ({
         ...prevState,
         selectedActor: actorRef.current.value,
@@ -52,7 +48,7 @@ const MoviePickerForm = ({
         selectedDirector: null,
       }));
     } else {
-      const { id, name } = await fetchDirectorData(
+      const { id, name } = await fetchPerson(
         directorRef.current.value,
         options
       );

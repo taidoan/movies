@@ -51,12 +51,12 @@ const ResultCard = ({ movie }) => {
         </li>
       </ul>
       <ul className={`${results.meta} ${results.metaCrew}`}>
-        <li className={results.metaEntry}>
-          <span className={results.metaKey}>Director:</span>
-          <span className={results.metaValue}>
-            {movie.movieDirector && movie.movieDirector}
-          </span>
-        </li>
+        {movie.movieDirector && (
+          <li className={results.metaEntry}>
+            <span className={results.metaKey}>Director:</span>
+            <span className={results.metaValue}>{movie.movieDirector}</span>
+          </li>
+        )}
         <li className={results.metaEntry}>
           <span className={results.metaKey}>Cast:</span>
           <span className={results.metaValue}>

@@ -1,6 +1,6 @@
-export const fetchActorData = async (selectedActor, options) => {
-  if (selectedActor) {
-    const url = `https://api.themoviedb.org/3/search/person?query=${selectedActor}&include_adult=false&language=en-US&page=1`;
+export const fetchPerson = async (selectedPerson, options) => {
+  if (selectedPerson) {
+    const url = `https://api.themoviedb.org/3/search/person?query=${selectedPerson}&include_adult=false&language=en-US&page=1`;
 
     try {
       const response = await fetch(url, options);
@@ -15,7 +15,7 @@ export const fetchActorData = async (selectedActor, options) => {
       }
       return { id, name };
     } catch (error) {
-      console.log("Error:", error);
+      console.log("Error fetching person data:", error);
       return { id: "", name: "" };
     }
   }
