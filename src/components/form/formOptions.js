@@ -21,6 +21,12 @@ const FormOptions = ({
       button.classList.toggle(form["button--expanded"]);
     }, []);
   };
+
+  const handleResetRating = () => {
+    document.getElementById("moviePicker").reset();
+    window.setRatingReset();
+  };
+
   const toggleOptions = useToggleOptions();
   const thisYear = new Date().getFullYear();
 
@@ -73,7 +79,7 @@ const FormOptions = ({
           max={thisYear}
           ref={yearRef}
           autoComplete="off"
-          aria-autocomplete="off"
+          aria-autocomplete="none"
           className={form.input_field}
           placeholder="YYYY"
         ></input>
@@ -101,6 +107,9 @@ const FormOptions = ({
           autoComplete="off"
           aria-autocomplete="none"
         ></input>
+        <button type="button" onClick={handleResetRating}>
+          Reset Form
+        </button>
       </div>
     </div>
   );

@@ -35,7 +35,8 @@ export const fetchMovieMeta = async (
         (item) => item.job === "Director"
       );
 
-      const directorName = filteredCrew[0].name;
+      const directorName =
+        filteredCrew.length > 0 ? filteredCrew[0].name : null;
 
       setMovieDetails((prevState) => ({
         ...prevState,

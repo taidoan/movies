@@ -1,4 +1,4 @@
-import { useId, Fragment, useState } from "react";
+import { useId, Fragment, useState, useEffect, useCallback } from "react";
 import ratings from "./filmRatings.module.scss";
 import form from "./../form/form.module.scss";
 export const Ratings = ({ rating }) => {
@@ -23,14 +23,26 @@ export const Ratings = ({ rating }) => {
     </div>
   );
 };
-
 export const SetRating = ({ setRating, max = 5, children, ...props }) => {
   const id = useId();
   const [rating, setLocalRating] = useState(null);
+
   const handleRatingChange = (value) => {
+    console.log("Handle Rating Change:", value);
     setLocalRating(value);
     setRating(value);
   };
+
+  const handleReset = useCallback(() => {
+    setLocalRating(null);
+    setRating(null);
+  }, [setRating]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.setRatingReset = handleReset;
+    }
+  }, [handleReset]);
 
   return (
     <>
