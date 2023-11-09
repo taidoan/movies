@@ -35,14 +35,16 @@ const ResultCard = ({ movie }) => {
           <span className={results.metaKey}>Year Released:</span>
           <span className={results.metaValue}>{movie.movieReleaseDate}</span>
         </li>
-        <li className={results.metaEntry}>
-          <span className={results.metaKey}>
-            {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
-          </span>
-          <span className={results.metaValue}>
-            {getGenreNames(movie.movieGenres)}
-          </span>
-        </li>
+        {movie.movieGenres !== null && (
+          <li className={results.metaEntry}>
+            <span className={results.metaKey}>
+              {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
+            </span>
+            <span className={results.metaValue}>
+              {getGenreNames(movie.movieGenres)}
+            </span>
+          </li>
+        )}
         <li className={results.metaEntry}>
           <span className={results.metaKey}>Runtime:</span>
           <span className={results.metaValue}>
@@ -50,20 +52,25 @@ const ResultCard = ({ movie }) => {
           </span>
         </li>
       </ul>
-      <ul className={`${results.meta} ${results.metaCrew}`}>
-        {movie.movieDirector && (
-          <li className={results.metaEntry}>
-            <span className={results.metaKey}>Director:</span>
-            <span className={results.metaValue}>{movie.movieDirector}</span>
-          </li>
-        )}
-        <li className={results.metaEntry}>
-          <span className={results.metaKey}>Cast:</span>
-          <span className={results.metaValue}>
-            {movie.movieCast ? movie.movieCast.join(", ") : ""}
-          </span>
-        </li>
-      </ul>
+
+      {(movie.movieDirector || movie.movieCast) && (
+        <ul className={`${results.meta} ${results.metaCrew}`}>
+          {movie.movieDirector && (
+            <li className={results.metaEntry}>
+              <span className={results.metaKey}>Director:</span>
+              <span className={results.metaValue}>{movie.movieDirector}</span>
+            </li>
+          )}
+          {movie.movieCast && (
+            <li className={results.metaEntry}>
+              <span className={results.metaKey}>Cast:</span>
+              <span className={results.metaValue}>
+                {movie.movieCast ? movie.movieCast.join(", ") : ""}
+              </span>
+            </li>
+          )}
+        </ul>
+      )}
       {movie.movieOverview && (
         <div className={results.overview}>
           <span className={results.overviewHeading}>Overview:</span>

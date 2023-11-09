@@ -36,25 +36,48 @@ export const fetchMovieData = async (
   }
 
   // HAS ACTOR OR DIRECTOR BEEN PICKED?
-  if (pickedActorID > 0 && pickedDirectorID > 0) {
+  if (
+    pickedActorID !== null &&
+    pickedActorID !== undefined &&
+    pickedActorID > 0 &&
+    pickedDirectorID !== null &&
+    pickedDirectorID !== undefined &&
+    pickedDirectorID > 0
+  ) {
     url += `&with_cast=${pickedActorID}&with_crew=${pickedDirectorID}`;
-  } else if (pickedActorID > 0) {
+  } else if (
+    pickedActorID !== null &&
+    pickedActorID !== undefined &&
+    pickedActorID > 0
+  ) {
     url += `&with_cast=${pickedActorID}`;
-  } else if (pickedDirectorID > 0) {
+  } else if (
+    pickedDirectorID !== null &&
+    pickedDirectorID !== undefined &&
+    pickedDirectorID > 0
+  ) {
     url += `&with_crew=${pickedDirectorID}`;
   }
 
   // Has a year been picked?
   if (pickedYear !== null && pickedYear !== undefined && pickedYear) {
-    url += `&year=${pickedYear}`;
+    url += `&primary_release_year=${pickedYear}`;
   }
 
   const movieData = await fetchMovies(url, options);
+
+  // Sort through results pages
   const totalPages = Math.min(movieData.total_pages, 500);
   const randomTotalPage = Math.floor(Math.random() * totalPages) + 1;
   const updatedUrl = url.replace(/&page=\d+/, `&page=${randomTotalPage}`);
 
-  if (pickedGenre || rating || pickedActorID || pickedDirectorID) {
+  if (
+    pickedGenre ||
+    rating ||
+    pickedActorID ||
+    pickedDirectorID ||
+    pickedYear
+  ) {
     updatedMovieData = await fetchMovies(updatedUrl, options);
   }
 
@@ -80,7 +103,7 @@ export const fetchMovieData = async (
       ...prevState,
       movieID: movie.id,
       movieName: movie.title,
-      movieGenres: movie.genre_ids,
+      movieGenres: movie.genre_ids.length > 0 ? movie.genre_ids : null,
       movieRating: Math.round(ratingOutOfFive),
       moviePosterPath: movie.poster_path,
       movieBackdrop: movie.backdrop_path,

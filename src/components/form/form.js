@@ -28,8 +28,8 @@ const MoviePickerForm = ({
       setMovieDetails((prevState) => ({
         ...prevState,
         selectedActor: null,
-        selectedActorID: 0,
-        selectedActorName: "",
+        selectedActorID: null,
+        selectedActorName: null,
       }));
     } else {
       const { id, name } = await fetchPerson(actorRef.current.value, options);

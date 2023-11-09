@@ -25,7 +25,7 @@ export const fetchMovieMeta = async (
 
       setMovieDetails((prevState) => ({
         ...prevState,
-        movieCast: castNames,
+        movieCast: castNames.length > 0 ? castNames : null,
       }));
     }
 
@@ -35,18 +35,12 @@ export const fetchMovieMeta = async (
         (item) => item.job === "Director"
       );
 
-      if (filteredCrew.length > 0) {
-        const directorName = filteredCrew[0].name;
-        setMovieDetails((prevState) => ({
-          ...prevState,
-          movieDirector: directorName,
-        }));
-      } else {
-        setMovieDetails((prevState) => ({
-          ...prevState,
-          movieDirector: null,
-        }));
-      }
+      const directorName = filteredCrew[0].name;
+
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        movieDirector: filteredCrew.length > 0 ? directorName : null,
+      }));
     }
 
     // Get Run Time
@@ -58,12 +52,7 @@ export const fetchMovieMeta = async (
     }
 
     // Get Age Rating
-    if (
-      movieMeta.release_dates &&
-      movieMeta.release_dates.results &&
-      movieMeta.release_dates.results.length > 0
-    ) {
-      let ageRating;
+    if (movieMeta.release_dates?.results?.length > 0) {
       const ageRatingGB = movieMeta.release_dates.results.find((item) =>
         item.iso_3166_1.includes("GB")
       );
@@ -71,17 +60,12 @@ export const fetchMovieMeta = async (
         item.iso_3166_1.includes("US")
       );
 
-      if (ageRatingGB) {
-        ageRating = ageRatingGB.release_dates[0].certification;
-      } else if (ageRatingUS) {
-        ageRating = ageRatingUS.release_dates[0].certification;
-      } else {
-        const randomIndex = Math.floor(
-          Math.random() * movieMeta.release_dates.results.length
-        );
-        const randomResult = movieMeta.release_dates.results[randomIndex];
-        ageRating = randomResult.release_dates[0].certification;
-      }
+      const ageRating =
+        ageRatingGB?.release_dates[0]?.certification ||
+        ageRatingUS?.release_dates[0]?.certification ||
+        (movieMeta.release_dates.results.length > 0
+          ? movieMeta.release_dates.results[0].release_dates[0].certification
+          : "N/A");
 
       setMovieDetails((prevState) => ({
         ...prevState,
@@ -106,62 +90,22 @@ export const fetchMovieMeta = async (
           )
         : null;
 
-    if (earliestTrailer?.key) {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieTrailer: `https://www.youtube.com/watch?v=` + earliestTrailer.key,
-      }));
-    } else {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieTrailer: null,
-      }));
-    }
+    setMovieDetails((prevState) => ({
+      ...prevState,
+      movieTrailer: earliestTrailer?.key
+        ? `https://www.youtube.com/watch?v=${earliestTrailer.key}`
+        : null,
+    }));
 
     // Get Watch Providers
     const providers = movieMeta["watch/providers"]?.results?.GB;
 
-    if (providers?.link) {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieWatchLink: providers.link,
-      }));
-    }
-
-    if (providers?.buy) {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieBuyProviders: providers.buy || null,
-      }));
-    } else {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieBuyProviders: null,
-      }));
-    }
-
-    if (providers?.flatrate) {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieStreamingProviders: providers.flatrate,
-      }));
-    } else {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieStreamingProviders: null,
-      }));
-    }
-
-    if (providers?.rent) {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieRentProviders: providers.rent || null,
-      }));
-    } else {
-      setMovieDetails((prevState) => ({
-        ...prevState,
-        movieRentProviders: null,
-      }));
-    }
+    setMovieDetails((prevState) => ({
+      ...prevState,
+      movieWatchLink: providers?.link,
+      movieBuyProviders: providers?.buy || null,
+      movieStreamingProviders: providers?.flatrate || null,
+      movieRentProviders: providers?.rent || null,
+    }));
   }
 };
