@@ -15,7 +15,7 @@ export const fetchMovieData = async (
   let page = Math.floor(Math.random() * 500);
 
   /* URL JUST TO GET A RANDOM MOVIE FROM TMDB */
-  let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1990&page=${page}`;
+  let url = `https://api.themoviedb.org/3/discover/movie?language=en-US&primary_release_date.gte=1980&page=${page}`;
 
   // HAS A GENERE BEEN PICKED?
   if (pickedGenre && pickedGenre !== "any") {

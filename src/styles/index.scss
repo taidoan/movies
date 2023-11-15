@@ -3,10 +3,15 @@
 @forward "./_reset";
 @import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap");
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: $primary-clr--dark;
   color: $white;
   font-family: $body-ff;
+  line-height: 1.2;
   padding: rem(32);
 }
 
@@ -15,6 +20,7 @@ h2,
 h3 {
   font-family: $heading-ff;
   font-weight: 700;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -44,9 +50,17 @@ button.btn {
   }
 }
 
+img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-style: italic;
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
 img.thumbnail {
   display: block;
-  height: auto;
   width: 100%;
 }
 
@@ -56,4 +70,8 @@ img.thumbnail {
 
 .credits {
   margin-top: rem(16);
+}
+
+.no-scroll {
+  overflow-y: hidden;
 }

@@ -19,7 +19,7 @@ export const fetchMovieMeta = async (
           (item, index, self) =>
             self.findIndex((i) => i.id === item.id) === index
         )
-        .slice(0, 3); // Gets first 3 actors
+        .slice(0, 6); // Gets first 3 actors
 
       const castNames = filteredCast.map((item) => item.name);
 
@@ -49,6 +49,14 @@ export const fetchMovieMeta = async (
       setMovieDetails((prevState) => ({
         ...prevState,
         movieRunTime: movieMeta.runtime || null,
+      }));
+    }
+
+    // Get movie language
+    if (movieMeta?.original_language) {
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        movieLanguage: movieMeta.original_language || null,
       }));
     }
 

@@ -1,6 +1,8 @@
 import form from "./form.module.scss";
 import { SetRating } from "../ratings/filmRatings";
 import { useCallback } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUndo } from "@fortawesome/free-solid-svg-icons";
 
 const FormOptions = ({
   selectedGenre,
@@ -107,8 +109,12 @@ const FormOptions = ({
           autoComplete="off"
           aria-autocomplete="none"
         ></input>
-        <button type="button" onClick={handleResetRating}>
-          Reset Form
+        <button
+          type="button"
+          onClick={handleResetRating}
+          className={form.reset_button}
+        >
+          Reset <FontAwesomeIcon icon={faUndo} />
         </button>
       </div>
     </div>

@@ -28,7 +28,6 @@ export const SetRating = ({ setRating, max = 5, children, ...props }) => {
   const [rating, setLocalRating] = useState(null);
 
   const handleRatingChange = (value) => {
-    console.log("Handle Rating Change:", value);
     setLocalRating(value);
     setRating(value);
   };

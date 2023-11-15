@@ -78,3 +78,22 @@ textarea:-webkit-autofill:focus,
   -webkit-box-shadow: 0 0 0px 1000px tint($primary-clr--light, 5%) inset;
   -webkit-text-fill-color: tint($oxford-blue-3, 50%);
 }
+
+.reset_button {
+  align-items: center;
+  background-color: tint($primary-clr--light, 5%);
+  border: 0;
+  border-radius: rem(8);
+  color: tint($oxford-blue-3, 50%);
+  display: grid;
+  font-family: $body-ff;
+  font-size: rem(12);
+  font-weight: 600;
+  gap: rem(8);
+  grid-column: 2 /3;
+  grid-template-columns: 1fr auto;
+  justify-self: end;
+  padding: rem(8) rem(12);
+  text-transform: uppercase;
+  width: fit-content;
+}
