@@ -107,9 +107,10 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
             <span className={results.metaTitle}>You May Also Like</span>
             <swiper-container slides-per-view="2">
               {movie.similarMovies.map((movie) => (
-                <swiper-slide key={movie.id}>
+                <swiper-slide key={movie.id} className={results.similarCard}>
                   <img
                     src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                    alt={movie.title}
                   />
                   {movie.title}
                 </swiper-slide>
