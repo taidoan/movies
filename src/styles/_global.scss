@@ -1,29 +1,42 @@
-// Colours
-
-$verdigris: hsla(173, 50%, 54%, 1);
+/* SCSS HSL */
+$oxford-blue: hsla(230, 33%, 15%, 1);
+$space-cadet: hsla(225, 26%, 21%, 1);
+$red-crayola: hsla(348, 85%, 54%, 1);
+$emerald: hsla(152, 61%, 56%, 1);
+$seasalt: hsla(0, 9%, 98%, 1);
 $ghost-white: hsla(240, 100%, 98%, 1);
-$savoy-blue: hsla(235, 60%, 59%, 1);
-$emerald: hsla(164, 95%, 43%, 1);
 
-$oxford-blue: hsla(225, 60%, 16%, 1);
+// $oxford-blue: hsla(225, 60%, 16%, 1);
 $oxford-blue-2: hsla(226, 60%, 10%, 1);
 $oxford-blue-3: rgb(131, 162, 254);
 $oxford-blue-4: rgb(28, 51, 115);
 $rusty-red: hsla(355, 64%, 52%, 1);
-$white: hsla(240, 100%, 100%, 1);
+$white: $ghost-white;
 $black: hsla(233, 40%, 4%, 1);
 $silver: hsla(0, 0%, 80%, 1);
 
-$primary-clr: $oxford-blue;
-$primary-clr--dark: $oxford-blue-2;
-$primary-clr--light: $oxford-blue-4;
-$secondary-clr: $rusty-red;
+$primary-clr: $space-cadet;
+$primary-clr--dark: darken($space-cadet, 10%);
+$primary-clr--light: lighten($space-cadet, 10%);
+$primary-clr--lightest: lighten($space-cadet, 40%);
+$secondary-clr: $red-crayola;
 
-$accent-clr: $verdigris;
-$primary-text-clr: $oxford-blue-3;
+$accent-clr: $emerald;
+$primary-text-clr: $seasalt;
 
 // Typography
 
 $body-ff: "Inter", Helvetica, Arial, sans-serif;
 $heading-ff: "Gabarito", Helvetica, Arial, sans-serif;
 $body-font-size: 16;
+
+// Breakpoints
+$breakpoints: (
+  small: 390,
+  small-lg: 500,
+  medium: 600,
+  medium-lg: 800,
+  large: 900,
+  large-lg: 1200,
+  large-xl: 1800,
+);

@@ -98,6 +98,11 @@
 .similarCard {
   background-color: $white;
   border-radius: rem(8);
+  color: $primary-clr;
   overflow: none;
   padding: rem(8);
+
+  &Img {
+    border-radius: rem(8);
+  }
 }

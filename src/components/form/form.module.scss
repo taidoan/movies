@@ -1,22 +1,25 @@
 @use "../../styles/global" as *;
 @use "../../styles/_functions" as *;
+@use "../../styles/mixins" as *;
 
 .container {
   background-color: $primary-clr--light;
   border-radius: rem(12);
   color: $white;
-  margin-top: rem(24);
   padding: rem(12);
 }
 
 .button {
-  background-color: transparent;
+  background-color: $primary-clr--light;
   border: 0;
+  border-radius: rem(12);
+  color: $white;
   color: $primary-text-clr;
   display: grid;
   font-size: rem(18);
   font-weight: 600;
   grid-template-columns: 1fr auto;
+  padding: rem(16);
   text-align: left;
   width: 100%;
 
@@ -24,19 +27,29 @@
     content: "▼";
   }
 
-  &--expanded::after {
-    content: "▲";
+  &Expanded {
+    border-radius: rem(12) rem(12) 0 0;
+    &::after {
+      content: "▲";
+    }
   }
 }
 
 .form {
+  background-color: $primary-clr--light;
+  border-radius: 0 0 rem(12) rem(12);
+  display: none;
+  padding: rem(8);
+  padding-top: 0;
+}
+
+.innerForm {
   align-items: center;
   background-color: shade($primary-clr--light, 10%);
   border-radius: rem(12);
-  display: none;
+  display: grid;
   gap: rem(10);
   grid-template-columns: 1fr 3fr;
-  margin-top: rem(16);
   padding: rem(16);
   text-align: left;
 }
@@ -96,4 +109,33 @@ textarea:-webkit-autofill:focus,
   padding: rem(8) rem(12);
   text-transform: uppercase;
   width: fit-content;
+}
+
+@include bp("small-lg") {
+  .main {
+    background-color: $primary-clr;
+    border-radius: rem(16);
+    column-gap: rem(8);
+    display: grid;
+    grid-template-columns: 2fr auto;
+    padding: rem(8);
+  }
+
+  .mainExpanded {
+    .form {
+      border-radius: 0 rem(12) rem(12) rem(12);
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      padding-top: rem(8);
+    }
+
+    .buttonExpanded {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+
+    .submitButton {
+      margin-bottom: rem(8);
+    }
+  }
 }

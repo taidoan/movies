@@ -3,8 +3,7 @@ import { fetchMovieData } from "./hooks/fetchMovieData";
 import { fetchMovieMeta } from "./hooks/fetchMovieMeta";
 import ResultCard from "./components/result/resultCard";
 import MoviePickerForm from "./components/form/form";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
+import home from "./styles/home.module.scss";
 export default function App() {
   /* TMDB API STUFF */
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -19,8 +18,6 @@ export default function App() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const [showResult, setShowResult] = useState(false);
-  const [buttonText, setButtonText] = useState(`Suggest Film`);
-  const [buttonIcon, setButtonIcon] = useState(faPlay);
   const [rating, setRating] = useState("");
   const lastIndexRef = useRef(null);
 
@@ -35,8 +32,6 @@ export default function App() {
         lastIndexRef
       );
       setFormSubmitted(false);
-      setButtonText("Suggest Another");
-      setButtonIcon(faRotate);
     }
   }, [formSubmitted, movieDetails, rating]);
 
@@ -49,9 +44,9 @@ export default function App() {
   }, [movieDetails.movieRunTime]);
 
   return (
-    <div className="container">
-      <h1>Movie Picker</h1>
-      <p>
+    <div className={`container ${home.container}`}>
+      <h1 className={home.title}>Movie Picker</h1>
+      <p className={home.intro}>
         Use this to search for a random film to watch. Use the options to get
         more specific or just get a random one.
       </p>
@@ -63,9 +58,6 @@ export default function App() {
         setFormSubmitted={setFormSubmitted}
         setRating={setRating}
       />
-      <button className="btn" type="submit" form="moviePicker">
-        {buttonText} <FontAwesomeIcon icon={buttonIcon} />
-      </button>
       {showResult && <p className="credits">Data provided by JustWatch</p>}
     </div>
   );

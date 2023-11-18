@@ -1,0 +1,33 @@
+@use "./functions" as *;
+@use "./global" as *;
+@use "./mixins" as *;
+
+.cardButton {
+  background-color: darken($primary-clr--light, 15%);
+  border: 0;
+  border-radius: rem(12);
+  color: $white;
+  cursor: pointer;
+  display: block;
+  font-family: $heading-ff;
+  font-size: rem(18);
+  font-weight: 700;
+  padding: rem(12);
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 0.5s, color 0.5s;
+
+  svg {
+    margin-left: rem(8);
+  }
+
+  &:hover {
+    background-color: $accent-clr;
+    color: $primary-clr--dark;
+  }
+
+  @include bp("small-lg") {
+    padding: rem(16) rem(12);
+  }
+}

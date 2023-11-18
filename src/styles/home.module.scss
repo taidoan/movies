@@ -1,0 +1,59 @@
+@use "./functions" as *;
+@use "./global" as *;
+@use "./mixins" as *;
+
+.container {
+  padding: rem(32) 0;
+}
+
+.title {
+  color: $accent-clr;
+  font-size: rem(40);
+  margin-bottom: rem(8);
+}
+
+.intro {
+  margin-bottom: rem(24);
+}
+
+.divider {
+  background-color: $primary-clr--light;
+  display: block;
+  height: rem(2);
+  margin: rem(24) auto;
+  width: 66%;
+}
+
+button.btn {
+  background-color: $accent-clr;
+  border: 0;
+  border-radius: rem(12);
+  color: $primary-clr--dark;
+  cursor: pointer;
+  font-family: $heading-ff;
+  font-size: rem(18);
+  font-weight: 700;
+  margin: rem(24) auto 0;
+  padding: rem(12);
+  text-transform: uppercase;
+  width: fit-content;
+  svg {
+    margin-left: rem(8);
+  }
+}
+@include bp("small-lg") {
+  .formContainer {
+    align-items: start;
+    background-color: red;
+    border-radius: rem(12);
+    display: grid;
+    gap: rem(16);
+    grid-template-columns: 2fr auto;
+    margin: 0 auto;
+    padding: rem(8);
+  }
+
+  button.btn {
+    margin-top: 0;
+  }
+}

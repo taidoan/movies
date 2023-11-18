@@ -1,6 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import FormOptions from "./formOptions";
+import form from "./form.module.scss";
 import { fetchPerson } from "../../hooks/fetchPerson";
+import home from "./../../styles/home.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
 
 const MoviePickerForm = ({
   setMovieDetails,
@@ -12,6 +16,8 @@ const MoviePickerForm = ({
   const actorRef = useRef(null);
   const directorRef = useRef(null);
   const yearRef = useRef(null);
+  const [buttonText, setButtonText] = useState(`Suggest Film`);
+  const [buttonIcon, setButtonIcon] = useState(faPlay);
 
   const handleGenreChange = (event) => {
     setMovieDetails((prevState) => ({
@@ -76,11 +82,14 @@ const MoviePickerForm = ({
       }));
     }
 
+    setButtonText("Suggest Another");
+    setButtonIcon(faRotate);
+
     setFormSubmitted(true);
   };
 
   return (
-    <form onSubmit={handleSubmit} id="moviePicker">
+    <form onSubmit={handleSubmit} id="moviePicker" className={form.main}>
       <FormOptions
         selectedGenre={movieDetails.selectedGenre}
         handleGenreChange={handleGenreChange}
@@ -89,6 +98,13 @@ const MoviePickerForm = ({
         directorRef={directorRef}
         setRating={setRating}
       />
+      <button
+        className={`${home.btn} ${form.submitButton}`}
+        type="submit"
+        form="moviePicker"
+      >
+        {buttonText} <FontAwesomeIcon icon={buttonIcon} />
+      </button>
     </form>
   );
 };

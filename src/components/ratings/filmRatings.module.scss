@@ -11,7 +11,7 @@
 }
 
 .starFilled {
-  color: $oxford-blue-3;
+  color: $primary-clr--lightest;
 }
 
 .textRating {
@@ -59,6 +59,6 @@
   width: 1em;
 
   &.selected {
-    color: $oxford-blue-3;
+    color: $primary-clr--lightest;
   }
 }
