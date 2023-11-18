@@ -11,8 +11,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { ProvidersTab } from "../providers/filmProvidersTab";
+import { register } from "swiper/element/bundle";
 
 const ExpandedResult = ({ movie, setExpandedResult }) => {
+  register();
   const closeResult = () => {
     setExpandedResult(false);
   };
@@ -81,7 +83,19 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
               )}
             </div>
           )}
-
+          {movie.movieTrailer && (
+            <div className={results.metaGroup}>
+              <a
+                href={movie.movieTrailer}
+                target="_blank"
+                rel="noopener noreferrer"
+                // className={button.watchTrailer}
+                title={`Watch The Trailer For ${movie.movieName} on YouTube.`}
+              >
+                Watch Trailer
+              </a>
+            </div>
+          )}
           {(movie.movieStreamingProviders ||
             movie.movieBuyProviders ||
             movie.movieRentProviders) && (
@@ -89,6 +103,19 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
               <ProvidersTab provider={movie} />
             </div>
           )}
+          <div className={results.metaGroup}>
+            <span className={results.metaTitle}>You May Also Like</span>
+            <swiper-container slides-per-view="2">
+              {movie.similarMovies.map((movie) => (
+                <swiper-slide key={movie.id}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                  />
+                  {movie.title}
+                </swiper-slide>
+              ))}
+            </swiper-container>
+          </div>
         </article>
       </div>
     </div>

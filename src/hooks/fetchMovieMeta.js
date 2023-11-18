@@ -7,9 +7,31 @@ export const fetchMovieMeta = async (
 ) => {
   if (movieDetails.movieID) {
     const movieMeta = await fetchMovies(
-      `https://api.themoviedb.org/3/movie/${movieDetails.movieID}?language=en-US&append_to_response=release_dates,videos,watch/providers,credits`,
+      `https://api.themoviedb.org/3/movie/${movieDetails.movieID}?language=en-US&append_to_response=release_dates,videos,watch/providers,credits,similar`,
       options
     );
+
+    // Grabs 10 random similar movies
+
+    if (movieMeta?.similar && movieMeta?.similar.results) {
+      const similarResults = movieMeta.similar.results;
+
+      // Function to shuffle an array
+      const shuffleArray = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      };
+
+      // Shuffle the array and take the first 10 elements
+      const randomResults = shuffleArray(similarResults).slice(0, 10);
+      setMovieDetails((prevState) => ({
+        ...prevState,
+        similarMovies: randomResults,
+      }));
+    }
 
     // Gets First 3 Cast Members
     if (movieMeta?.credits && movieMeta?.credits.cast) {
