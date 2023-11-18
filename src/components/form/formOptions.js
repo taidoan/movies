@@ -1,4 +1,5 @@
 import form from "./form.module.scss";
+import home from "./../../styles/home.module.scss";
 import { SetRating } from "../ratings/filmRatings";
 import { useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,11 +17,13 @@ const FormOptions = ({
     return useCallback(() => {
       const form = document.getElementById("formOptions");
       const button = document.getElementById("toggleOptions");
+      const formContainer = document.getElementById("formContainer");
       form.style.display =
         form.style.display === "none" || form.style.display === ""
           ? "grid"
           : "none";
       button.classList.toggle(form["button--expanded"]);
+      formContainer.classList.toggle(home["formContainerExpanded"]);
     }, []);
   };
 

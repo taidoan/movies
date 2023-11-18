@@ -5,6 +5,7 @@ import ResultCard from "./components/result/resultCard";
 import MoviePickerForm from "./components/form/form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
+import home from "./styles/home.module.scss";
 export default function App() {
   /* TMDB API STUFF */
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -49,23 +50,25 @@ export default function App() {
   }, [movieDetails.movieRunTime]);
 
   return (
-    <div className="container">
-      <h1>Movie Picker</h1>
-      <p>
+    <div className={`container ${home.container}`}>
+      <h1 className={home.title}>Movie Picker</h1>
+      <p className={home.intro}>
         Use this to search for a random film to watch. Use the options to get
         more specific or just get a random one.
       </p>
       {showResult && <ResultCard movie={movieDetails} />}
-      <MoviePickerForm
-        setMovieDetails={setMovieDetails}
-        options={options}
-        movieDetails={movieDetails}
-        setFormSubmitted={setFormSubmitted}
-        setRating={setRating}
-      />
-      <button className="btn" type="submit" form="moviePicker">
-        {buttonText} <FontAwesomeIcon icon={buttonIcon} />
-      </button>
+      <div className={home.formContainer} id="formContainer">
+        <MoviePickerForm
+          setMovieDetails={setMovieDetails}
+          options={options}
+          movieDetails={movieDetails}
+          setFormSubmitted={setFormSubmitted}
+          setRating={setRating}
+        />
+        <button className={home.btn} type="submit" form="moviePicker">
+          {buttonText} <FontAwesomeIcon icon={buttonIcon} />
+        </button>
+      </div>
       {showResult && <p className="credits">Data provided by JustWatch</p>}
     </div>
   );
