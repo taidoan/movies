@@ -115,15 +115,13 @@ textarea:-webkit-autofill:focus,
   .main {
     background-color: $primary-clr;
     border-radius: rem(16);
-    column-gap: rem(8);
+    column-gap: rem(16);
     display: grid;
     grid-template-columns: 2fr auto;
-    padding: rem(8);
+    padding: rem(16);
   }
 
   .mainExpanded {
-    column-gap: rem(12);
-    padding: rem(12);
     .form {
       border-radius: 0 rem(12) rem(12) rem(12);
       grid-column: 1 / 3;
@@ -137,7 +135,7 @@ textarea:-webkit-autofill:focus,
     }
 
     .submitButton {
-      margin-bottom: rem(12);
+      margin-bottom: rem(16);
     }
   }
 }

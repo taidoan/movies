@@ -64,49 +64,53 @@ const ResultCard = ({ movie }) => {
           </span>
         </li>
       </ul>
-      {movie.movieGenres !== null && movie.movieGenres !== undefined && (
-        <div className={`${results.meta} ${results.metaGenres}`}>
-          <span className={results.metaTitle}>
-            {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
-          </span>
-          <span className={results.metaValue}>
-            {getGenreNames(movie.movieGenres)}
-          </span>
+      <div className={results.group}>
+        {movie.movieGenres !== null && movie.movieGenres !== undefined && (
+          <div className={`${results.meta} ${results.metaGenres}`}>
+            <span className={results.metaTitle}>
+              {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
+            </span>
+            <span className={results.metaValue}>
+              {getGenreNames(movie.movieGenres)}
+            </span>
+          </div>
+        )}
+        {(movie.movieDirector || movie.movieCast) && (
+          <ul className={`${results.meta} ${results.metaCrew}`}>
+            {movie.movieDirector && (
+              <li className={results.metaItem}>
+                <span className={results.metaTitle}>Director:</span>
+                <span className={results.metaValue}>{movie.movieDirector}</span>
+              </li>
+            )}
+            {movie.movieCast && (
+              <li className={results.metaItem}>
+                <span className={results.metaTitle}>Cast:</span>
+                <span className={results.metaValue}>
+                  {movie.movieCast
+                    ? movie.movieCast.slice(0, 3).join(", ")
+                    : ""}
+                </span>
+              </li>
+            )}
+          </ul>
+        )}
+        {movie.movieOverview && (
+          <div className={results.overview}>
+            <span className={results.overviewTitle}>Overview:</span>
+            <p className={results.overviewContent}>{movie.movieOverview}</p>
+          </div>
+        )}
+        <div className={results.ctas}>
+          {movie.movieTrailer && <WatchTrailer link={movie} />}
+          <button
+            onClick={expandResult}
+            className={`${results.expandResults} ${btns.cardButton}`}
+          >
+            More Info
+            <FontAwesomeIcon icon={faChevronCircleRight} />
+          </button>
         </div>
-      )}
-      {(movie.movieDirector || movie.movieCast) && (
-        <ul className={`${results.meta} ${results.metaCrew}`}>
-          {movie.movieDirector && (
-            <li className={results.metaItem}>
-              <span className={results.metaTitle}>Director:</span>
-              <span className={results.metaValue}>{movie.movieDirector}</span>
-            </li>
-          )}
-          {movie.movieCast && (
-            <li className={results.metaItem}>
-              <span className={results.metaTitle}>Cast:</span>
-              <span className={results.metaValue}>
-                {movie.movieCast ? movie.movieCast.slice(0, 3).join(", ") : ""}
-              </span>
-            </li>
-          )}
-        </ul>
-      )}
-      {movie.movieOverview && (
-        <div className={results.overview}>
-          <span className={results.overviewTitle}>Overview:</span>
-          <p className={results.overviewContent}>{movie.movieOverview}</p>
-        </div>
-      )}
-      <div className={results.ctas}>
-        {movie.movieTrailer && <WatchTrailer link={movie} />}
-        <button
-          onClick={expandResult}
-          className={`${results.expandResults} ${btns.cardButton}`}
-        >
-          More Info
-          <FontAwesomeIcon icon={faChevronCircleRight} />
-        </button>
       </div>
       {expandedResult ? (
         <ExpandedResult movie={movie} setExpandedResult={setExpandedResult} />
