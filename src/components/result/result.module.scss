@@ -2,6 +2,8 @@
 @use "../../styles/functions" as *;
 @use "../../styles/mixins" as *;
 
+@use "../../styles/mixins" as *;
+
 .card {
   background-color: $primary-clr--light;
   border-radius: rem(16);
@@ -28,11 +30,13 @@
   font-size: rem(40);
 }
 
-.meta,
-.overview {
-  background-color: darken($primary-clr--light, 5%);
-  border-radius: rem(8);
+.meta {
+  border-radius: rem(12);
+  font-size: rem(14);
   overflow: hidden;
+}
+
+.metaGroup {
 }
 
 .metaItem,
@@ -181,5 +185,54 @@
 
   .ctas {
     gap: rem(16);
+  }
+}
+
+.posterImage {
+  display: none;
+}
+
+@include bp("medium-lg") {
+  .card {
+    grid-template-columns: 1fr 2fr;
+    text-align: left;
+  }
+
+  .backdropImage {
+    display: none;
+  }
+
+  .posterImage {
+    display: block;
+    grid-row: 1 / 4;
+  }
+
+  .metaGroup {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+
+    .meta {
+      margin-top: 0;
+    }
+  }
+
+  .title {
+    grid-column: 2 / 4;
+    grid-row: 1 / 2;
+    text-align: left;
+  }
+
+  .overview {
+    grid-column: 2 / 4;
+    grid-row: 2 / 3;
+  }
+
+  .crewGroup {
+    grid-column: 2 / 4;
+    grid-row: 3 / 4;
+
+    .metaCrew {
+      margin-top: 0;
+    }
   }
 }

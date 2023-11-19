@@ -3,7 +3,8 @@ import { fetchMovieData } from "./hooks/fetchMovieData";
 import { fetchMovieMeta } from "./hooks/fetchMovieMeta";
 import ResultCard from "./components/result/resultCard";
 import MoviePickerForm from "./components/form/form";
-import home from "./styles/home.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRotate, faPlay } from "@fortawesome/free-solid-svg-icons";
 export default function App() {
   /* TMDB API STUFF */
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -58,6 +59,9 @@ export default function App() {
         setFormSubmitted={setFormSubmitted}
         setRating={setRating}
       />
+      <button className="btn" type="submit" form="moviePicker">
+        {buttonText} <FontAwesomeIcon icon={buttonIcon} />
+      </button>
       {showResult && <p className="credits">Data provided by JustWatch</p>}
     </div>
   );
