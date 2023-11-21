@@ -1,0 +1,41 @@
+@use "../../styles/global" as *;
+@use "../../styles/functions" as *;
+@use "../../styles/mixins" as *;
+
+.card {
+  background-color: $primary-clr--light;
+  border-radius: rem(8);
+  overflow: hidden;
+  padding: rem(8);
+}
+
+.posterImage {
+  border-radius: rem(8);
+}
+
+.title {
+  display: block;
+  font-family: $heading-ff;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: rem(8);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.swiper-container {
+  margin-top: rem(8);
+
+  &::part(pagination) {
+    margin-top: rem(12);
+    position: static;
+  }
+
+  &::part(bullet) {
+    background-color: $white;
+  }
+
+  &::part(bullet-active) {
+    background-color: $accent-clr;
+  }
+}

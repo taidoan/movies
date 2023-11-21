@@ -10,22 +10,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 const ResultCard = ({ movie }) => {
-  const [expandedResult, setExpandedResult] = useState(false);
+  // useEffect(() => {
+  //   document.body.classList.toggle("no-scroll", expandedResult);
+  //   return () => {
+  //     document.body.classList.remove("no-scroll");
+  //   };
+  // });
 
-  const expandResult = () => {
-    setExpandedResult(true);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  useEffect(() => {
-    document.body.classList.toggle("no-scroll", expandedResult);
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
-  }, [expandedResult]);
+  const expandedResult = document.querySelector("dialog");
 
   return (
     <div key={movie.id} className={results.card}>
@@ -104,17 +96,18 @@ const ResultCard = ({ movie }) => {
         <div className={results.ctas}>
           {movie.movieTrailer && <WatchTrailer link={movie} />}
           <button
-            onClick={expandResult}
             className={`${results.expandResults} ${btns.cardButton}`}
+            onClick={() => {
+              expandedResult.showModal();
+              document.body.classList.add("modal-open");
+            }}
           >
             More Info
             <FontAwesomeIcon icon={faChevronCircleRight} />
           </button>
         </div>
       </div>
-      {expandedResult ? (
-        <ExpandedResult movie={movie} setExpandedResult={setExpandedResult} />
-      ) : null}
+      <ExpandedResult movie={movie} />
     </div>
   );
 };

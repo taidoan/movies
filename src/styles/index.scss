@@ -108,6 +108,10 @@ img.thumbnail {
   overflow-y: hidden;
 }
 
+.modal-open {
+  overflow: hidden;
+}
+
 #root {
   display: grid;
   height: 100dvh;

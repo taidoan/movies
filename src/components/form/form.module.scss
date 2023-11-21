@@ -2,13 +2,6 @@
 @use "../../styles/_functions" as *;
 @use "../../styles/mixins" as *;
 
-.container {
-  background-color: $primary-clr--light;
-  border-radius: rem(12);
-  color: $white;
-  padding: rem(12);
-}
-
 .button {
   background-color: $primary-clr--light;
   border: 0;

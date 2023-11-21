@@ -58,7 +58,7 @@ export default function App() {
         setFormSubmitted={setFormSubmitted}
         setRating={setRating}
       />
-      {showResult && <p className="credits">Data provided by JustWatch</p>}
+      {/* {showResult && <p className="credits">Data provided by JustWatch</p>} */}
     </div>
   );
 }

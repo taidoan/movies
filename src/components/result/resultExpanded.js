@@ -1,28 +1,31 @@
 import results from "./results-expanded.module.scss";
 import getGenreNames from "../../hooks/genreNames";
 import convertToHHMM from "../../hooks/convertToHHMM";
-import WatchTrailer from "../watchTrailer/watchTrailerButton";
 import { Ratings } from "../ratings/filmRatings";
-import {
-  StreamingProviders,
-  BuyMovieProviders,
-  RentMovieProviders,
-} from "../providers/filmProviders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { ProvidersTab } from "../providers/filmProvidersTab";
-import { register } from "swiper/element/bundle";
+import { SimilarMovies } from "../similarMovies/similarMovies";
 
-const ExpandedResult = ({ movie, setExpandedResult }) => {
-  register();
-  const closeResult = () => {
-    setExpandedResult(false);
-  };
+const ExpandedResult = ({ movie }) => {
+  const expandedResult = document.querySelector("dialog");
+
+  function handleKeyDown(event) {
+    if (event.key === "Escape") {
+      expandedResult.close();
+      document.body.classList.remove("modal-open");
+    }
+  }
+  document.addEventListener("keydown", handleKeyDown);
+
   return (
-    <div className={results.outerContainer}>
+    <dialog className={results.outerContainer}>
       <FontAwesomeIcon
         icon={faCircleXmark}
-        onClick={closeResult}
+        onClick={() => {
+          expandedResult.close();
+          document.body.classList.remove("modal-open");
+        }}
         className={results.closeWindow}
       />
       <div key={movie.id} className={results.container}>
@@ -46,24 +49,19 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
               <p>{movie.movieOverview}</p>
             </div>
           )}
-
-          {(movie.movieDirector ||
-            movie.movieCast ||
-            movie.movieGenres !== null ||
-            movie.movieGenres !== undefined) && (
+          {(movie.movieDirector || movie.movieCast || movie.movieGenres) && (
             <div className={`${results.meta} ${results.metaGroup}`}>
-              {movie.movieGenres !== null &&
-                movie.movieGenres !== undefined && (
-                  <div className={results.meta}>
-                    <span>
-                      <span className={results.metaTitle}>
-                        {" "}
-                        {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
-                      </span>
-                      {getGenreNames(movie.movieGenres)}
+              {movie.movieGenres && (
+                <div className={results.meta}>
+                  <span>
+                    <span className={results.metaTitle}>
+                      {movie.movieGenres.length > 1 ? "Genres:" : "Genre:"}
                     </span>
-                  </div>
-                )}
+                    {getGenreNames(movie.movieGenres)}
+                  </span>
+                </div>
+              )}
+
               {movie.movieDirector && (
                 <div className={results.meta}>
                   <span>
@@ -72,24 +70,24 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
                   </span>
                 </div>
               )}
+
               {movie.movieCast && (
                 <div className={results.meta}>
                   <span>
-                    {" "}
                     <span className={results.metaTitle}>Cast:</span>
-                    {movie.movieCast ? movie.movieCast.join(", ") : ""}
+                    {movie.movieCast.join(", ")}
                   </span>
                 </div>
               )}
             </div>
           )}
           {movie.movieTrailer && (
-            <div className={results.metaGroup}>
+            <div className={`${results.metaGroup} ${results.metaTrailer}`}>
               <a
                 href={movie.movieTrailer}
                 target="_blank"
                 rel="noopener noreferrer"
-                // className={button.watchTrailer}
+                className={results.trailerButton}
                 title={`Watch The Trailer For ${movie.movieName} on YouTube.`}
               >
                 Watch Trailer
@@ -99,28 +97,19 @@ const ExpandedResult = ({ movie, setExpandedResult }) => {
           {(movie.movieStreamingProviders ||
             movie.movieBuyProviders ||
             movie.movieRentProviders) && (
-            <div className={results.metaGroup}>
+            <div className={`${results.metaGroup} ${results.metaProviders}`}>
               <ProvidersTab provider={movie} />
             </div>
           )}
-          <div className={results.metaGroup}>
-            <span className={results.metaTitle}>You May Also Like</span>
-            <swiper-container slides-per-view="2">
-              {movie.similarMovies.map((movie) => (
-                <swiper-slide key={movie.id} class={results.similarCard}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                    alt={movie.title}
-                    className={results.similarCardImg}
-                  />
-                  {movie.title}
-                </swiper-slide>
-              ))}
-            </swiper-container>
-          </div>
+          {movie.similarMovies && (
+            <div className={`${results.metaGroup} ${results.metaSimilar}`}>
+              <span className={results.metaTitle}>You May Also Like</span>
+              <SimilarMovies similar={movie.similarMovies} />
+            </div>
+          )}
         </article>
       </div>
-    </div>
+    </dialog>
   );
 };
 
