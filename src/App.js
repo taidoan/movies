@@ -39,10 +39,6 @@ export default function App() {
     fetchMovieMeta(movieDetails, setMovieDetails, options);
   }, [movieDetails.movieID]);
 
-  useEffect(() => {
-    console.log(movieDetails);
-  }, [movieDetails.movieRunTime]);
-
   return (
     <div className={`container ${home.container}`}>
       <h1 className={home.title}>MovieShuffle</h1>
