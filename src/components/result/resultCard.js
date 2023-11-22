@@ -82,7 +82,23 @@ const ResultCard = ({ movie }) => {
         {movie.movieOverview && (
           <div className={results.overview}>
             <span className={results.overviewTitle}>Overview:</span>
-            <p className={results.overviewContent}>{movie.movieOverview}</p>
+            <p className={results.overviewContent}>
+              {movie.movieOverview.length > 300 ? (
+                <>
+                  {movie.movieOverview.substring(0, 300)}{" "}
+                  <span
+                    onClick={() => {
+                      expandedResult.showModal();
+                    }}
+                    className={results.showMoreText}
+                  >
+                    [...]
+                  </span>
+                </>
+              ) : (
+                movie.movieOverview
+              )}
+            </p>
           </div>
         )}
         <div className={results.ctas}>
