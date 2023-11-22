@@ -7,7 +7,7 @@
 }
 
 .star {
-  color: $primary-clr;
+  color: lighten($primary-clr--light, 7.5%);
 }
 
 .starFilled {

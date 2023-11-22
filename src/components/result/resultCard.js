@@ -5,18 +5,10 @@ import convertToHHMM from "../../hooks/convertToHHMM";
 import { Ratings } from "../ratings/filmRatings";
 import WatchTrailer from "../watchTrailer/watchTrailerButton";
 import ExpandedResult from "./resultExpanded";
-import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleRight } from "@fortawesome/free-solid-svg-icons";
 
 const ResultCard = ({ movie }) => {
-  // useEffect(() => {
-  //   document.body.classList.toggle("no-scroll", expandedResult);
-  //   return () => {
-  //     document.body.classList.remove("no-scroll");
-  //   };
-  // });
-
   const expandedResult = document.querySelector("dialog");
 
   return (
@@ -99,7 +91,6 @@ const ResultCard = ({ movie }) => {
             className={`${results.expandResults} ${btns.cardButton}`}
             onClick={() => {
               expandedResult.showModal();
-              document.body.classList.add("modal-open");
             }}
           >
             More Info

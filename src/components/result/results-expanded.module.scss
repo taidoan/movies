@@ -1,6 +1,6 @@
 @use "../../styles/global" as *;
 @use "../../styles/functions" as *;
-
+@use "../../styles/mixins" as *;
 .outerContainer {
   background-color: transparent;
   border: 0;
@@ -12,7 +12,7 @@
   width: 100%;
 
   &::backdrop {
-    background-color: rgba($black, 0.975);
+    background-color: rgba(darken($primary-clr, 50%), 0.975);
   }
 }
 
@@ -75,12 +75,16 @@
 
 .title {
   font-size: 2.5rem;
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.14);
 }
 
 .meta {
   display: flex;
   font-size: rem(15);
   margin-top: 0.25rem;
+  @include bp("medium") {
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.14);
+  }
 
   &Title {
     font-weight: 700;
@@ -101,17 +105,41 @@
     margin-top: 0.25rem;
   }
 
+  &Overview {
+  }
+
+  &Crew {
+  }
+
   &Providers {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
+
+    .metaTitle {
+      display: block;
+      margin-bottom: rem(12);
+    }
   }
 
   &Trailer {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
   }
 
   &Similar {
     margin-top: 1.5rem;
+
+    .metaTitle {
+      display: block;
+      margin-bottom: rem(12);
+    }
   }
+}
+
+.star {
+  color: rgba($white, 0.5);
+}
+
+.starFilled {
+  color: $accent-clr;
 }
 
 .similarCard {

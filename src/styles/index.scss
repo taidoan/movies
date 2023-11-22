@@ -12,6 +12,10 @@ body {
   color: $white;
   font-family: $body-ff;
   line-height: 1.2;
+
+  &:has(dialog[open]) {
+    overflow: hidden;
+  }
 }
 
 h1,
@@ -102,14 +106,6 @@ img.thumbnail {
 
 .credits {
   margin-top: rem(16);
-}
-
-.no-scroll {
-  overflow-y: hidden;
-}
-
-.modal-open {
-  overflow: hidden;
 }
 
 #root {

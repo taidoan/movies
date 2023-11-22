@@ -3,7 +3,7 @@
 @use "../../styles/mixins" as *;
 
 .card {
-  background-color: $primary-clr--light;
+  background-color: rgba($primary-clr, 0.75);
   border-radius: rem(8);
   overflow: hidden;
   padding: rem(8);
@@ -24,10 +24,14 @@
 }
 
 .swiper-container {
-  margin-top: rem(8);
+  @include bp("medium") {
+    background-color: rgba(darken($primary-clr, 10%), 0.75);
+    border-radius: rem(8);
+    padding: rem(8);
+  }
 
   &::part(pagination) {
-    margin-top: rem(12);
+    margin-top: rem(8);
     position: static;
   }
 

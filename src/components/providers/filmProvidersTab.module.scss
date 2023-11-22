@@ -1,7 +1,7 @@
 @use "../../styles/global" as *;
 @use "../../styles/functions" as *;
 .container {
-  background-color: $primary-clr--light;
+  background-color: rgba(darken($primary-clr, 10%), 0.75);
   border-radius: rem(8);
   display: block;
   overflow: hidden;
@@ -14,7 +14,7 @@
 }
 
 .tab {
-  background-color: shade($primary-clr--light, 25%);
+  background-color: rgba(darken($primary-clr--light, 5%), 0.75);
   border: 0;
   color: rgba($white, 0.75);
   cursor: pointer;
@@ -23,17 +23,17 @@
   transition: background-color 0.2s;
 
   &Active {
-    background-color: $primary-clr;
+    background-color: rgba($primary-clr, 0.75);
     color: $white;
     font-weight: 700;
 
     &:hover {
-      background-color: $primary-clr !important;
+      background-color: rgba($primary-clr, 0.75) !important;
     }
   }
 
   &:hover {
-    background-color: shade($primary-clr--light, 15%);
+    background-color: rgba($primary-clr--light, 0.75);
   }
 
   &:first-child {
@@ -54,7 +54,7 @@
 }
 
 .content {
-  background-color: $primary-clr;
+  background-color: rgba($primary-clr, 0.75);
   border-radius: 0 0 rem(8) rem(8);
   display: none;
   padding: rem(12);

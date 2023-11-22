@@ -10,21 +10,12 @@ import { SimilarMovies } from "../similarMovies/similarMovies";
 const ExpandedResult = ({ movie }) => {
   const expandedResult = document.querySelector("dialog");
 
-  function handleKeyDown(event) {
-    if (event.key === "Escape") {
-      expandedResult.close();
-      document.body.classList.remove("modal-open");
-    }
-  }
-  document.addEventListener("keydown", handleKeyDown);
-
   return (
     <dialog className={results.outerContainer}>
       <FontAwesomeIcon
         icon={faCircleXmark}
         onClick={() => {
           expandedResult.close();
-          document.body.classList.remove("modal-open");
         }}
         className={results.closeWindow}
       />
@@ -37,7 +28,7 @@ const ExpandedResult = ({ movie }) => {
         <article className={results.movieResult}>
           <h1 className={results.title}>{movie.movieName}</h1>
           <div className={results.metaGroup}>
-            <Ratings rating={movie.movieRating} />
+            <Ratings rating={movie.movieRating} expandedResult={true} />
             <div className={`${results.meta} ${results.metaInfo}`}>
               <span>{movie.movieAgeRating}</span>
               <span>{movie.movieReleaseDate}</span>
@@ -45,12 +36,16 @@ const ExpandedResult = ({ movie }) => {
             </div>
           </div>
           {movie.movieOverview && (
-            <div className={`${results.meta} ${results.metaGroup}`}>
+            <div
+              className={`${results.meta} ${results.metaGroup} ${results.metaOverview}`}
+            >
               <p>{movie.movieOverview}</p>
             </div>
           )}
           {(movie.movieDirector || movie.movieCast || movie.movieGenres) && (
-            <div className={`${results.meta} ${results.metaGroup}`}>
+            <div
+              className={`${results.meta} ${results.metaGroup} ${results.metaCrew}`}
+            >
               {movie.movieGenres && (
                 <div className={results.meta}>
                   <span>
@@ -98,15 +93,18 @@ const ExpandedResult = ({ movie }) => {
             movie.movieBuyProviders ||
             movie.movieRentProviders) && (
             <div className={`${results.metaGroup} ${results.metaProviders}`}>
+              <span className={results.metaTitle}>Where To Watch</span>
               <ProvidersTab provider={movie} />
             </div>
           )}
-          {movie.similarMovies && (
-            <div className={`${results.metaGroup} ${results.metaSimilar}`}>
-              <span className={results.metaTitle}>You May Also Like</span>
-              <SimilarMovies similar={movie.similarMovies} />
-            </div>
-          )}
+          {movie.similarMovies &&
+            movie.similarMovies !== null &&
+            movie.similarMovies.length > 0 && (
+              <div className={`${results.metaGroup} ${results.metaSimilar}`}>
+                <span className={results.metaTitle}>You May Also Like</span>
+                <SimilarMovies similar={movie.similarMovies} />
+              </div>
+            )}
         </article>
       </div>
     </dialog>

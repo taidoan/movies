@@ -1,21 +1,31 @@
 import { useId, Fragment, useState, useEffect, useCallback } from "react";
 import ratings from "./filmRatings.module.scss";
+import expanded from "./../result/results-expanded.module.scss";
 import form from "./../form/form.module.scss";
-export const Ratings = ({ rating }) => {
+export const Ratings = ({ rating, expandedResult }) => {
+  let starClass = `${ratings.star}`;
+  let starClassFilled = `${ratings.starFilled}`;
+
+  if (expandedResult) {
+    starClass = `${expanded.star}`;
+    starClassFilled = `${expanded.starFilled}`;
+  } else {
+    starClass = `${ratings.star}`;
+    starClassFilled = `${ratings.starFilled}`;
+  }
+
   const max_rating = 5;
   const stars = Array.from({ length: max_rating }, (_, index) => (
     <span
       key={index}
-      className={`${ratings.star} ${
-        index < rating ? `${ratings.starFilled}` : ""
-      }`}
+      className={`${starClass} ${index < rating ? `${starClassFilled}` : ""}`}
     >
       ★
     </span>
   ));
 
   return (
-    <div className={ratings.starList}>
+    <div className={`${ratings.starList}`}>
       {stars}
       <span className={ratings.textRating}>
         ({rating}/{max_rating})
