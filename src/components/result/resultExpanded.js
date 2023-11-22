@@ -20,11 +20,13 @@ const ExpandedResult = ({ movie }) => {
         className={results.closeWindow}
       />
       <div key={movie.id} className={results.container}>
-        <img
-          src={`https://image.tmdb.org/t/p/original/${movie.movieBackdrop}`}
-          alt={`Backdrop image for the movie: ${movie.movieName}`}
-          className={`${results.fullWidth} ${results.backdrop}`}
-        />
+        {movie.movieBackdrop && (
+          <img
+            src={`https://image.tmdb.org/t/p/original/${movie.movieBackdrop}`}
+            alt={`Backdrop image for the movie: ${movie.movieName}`}
+            className={`${results.fullWidth} ${results.backdrop}`}
+          />
+        )}
         <article className={results.movieResult}>
           <h1 className={results.title}>{movie.movieName}</h1>
           <div className={results.metaGroup}>
@@ -105,6 +107,20 @@ const ExpandedResult = ({ movie }) => {
                 <SimilarMovies similar={movie.similarMovies} />
               </div>
             )}
+          {(movie.movieStreamingProviders ||
+            movie.movieBuyProviders ||
+            movie.movieRentProviders) && (
+            <p className={results.credit}>
+              Data provided by{" "}
+              <a
+                href="https://www.justwatch.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                JustWatch
+              </a>
+            </p>
+          )}
         </article>
       </div>
     </dialog>

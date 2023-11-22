@@ -41,16 +41,18 @@ export const SimilarMovies = (similar) => {
       init="false"
       ref={swiperElRef}
     >
-      {similar.similar.map((movie) => (
-        <swiper-slide key={movie.id} class={styles.card}>
-          <img
-            src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-            alt={movie.title}
-            className={styles.posterImage}
-          />
-          <span className={styles.title}>{movie.title}</span>
-        </swiper-slide>
-      ))}
+      {similar.similar
+        .filter((movie) => movie.poster_path)
+        .map((movie) => (
+          <swiper-slide key={movie.id} class={styles.card}>
+            <img
+              src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+              alt={movie.title}
+              className={styles.posterImage}
+            />
+            <span className={styles.title}>{movie.title}</span>
+          </swiper-slide>
+        ))}
     </swiper-container>
   );
 };
