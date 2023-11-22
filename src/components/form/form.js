@@ -16,7 +16,7 @@ const MoviePickerForm = ({
   const actorRef = useRef(null);
   const directorRef = useRef(null);
   const yearRef = useRef(null);
-  const [buttonText, setButtonText] = useState(`Suggest Film`);
+  const [buttonText, setButtonText] = useState(`Surprise Me`);
   const [buttonIcon, setButtonIcon] = useState(faPlay);
 
   const handleGenreChange = (event) => {
@@ -82,7 +82,7 @@ const MoviePickerForm = ({
       }));
     }
 
-    setButtonText("Suggest Another");
+    setButtonText("Try Again");
     setButtonIcon(faRotate);
 
     setFormSubmitted(true);

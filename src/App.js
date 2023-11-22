@@ -45,10 +45,11 @@ export default function App() {
 
   return (
     <div className={`container ${home.container}`}>
-      <h1 className={home.title}>Movie Picker</h1>
+      <h1 className={home.title}>MovieShuffle</h1>
       <p className={home.intro}>
-        Use this to search for a random film to watch. Use the options to get
-        more specific or just get a random one.
+        Explore random films effortlessly! Customize your search or go
+        completely random. Get quick details and find your next movie night
+        pick.
       </p>
       {showResult && <ResultCard movie={movieDetails} />}
       <MoviePickerForm
@@ -58,7 +59,6 @@ export default function App() {
         setFormSubmitted={setFormSubmitted}
         setRating={setRating}
       />
-      {/* {showResult && <p className="credits">Data provided by JustWatch</p>} */}
     </div>
   );
 }
