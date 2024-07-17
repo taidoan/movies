@@ -41,7 +41,7 @@ export default function App() {
 
   return (
     <div className={`container ${home.container}`}>
-      <h1 className={home.title}>MovieShuffle</h1>
+      <h1 className={home.title}>Movie Shuffle</h1>
       <p className={home.intro}>
         Explore random films effortlessly! Customize your search or go
         completely random. Get quick details and find your next movie night
