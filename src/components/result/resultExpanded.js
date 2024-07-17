@@ -23,7 +23,7 @@ const ExpandedResult = ({ movie }) => {
         {movie.movieBackdrop && (
           <img
             src={`https://image.tmdb.org/t/p/original/${movie.movieBackdrop}`}
-            alt={`Backdrop image for the movie: ${movie.movieName}`}
+            alt={`Backdrop for the movie: ${movie.movieName}`}
             className={`${results.fullWidth} ${results.backdrop}`}
           />
         )}
